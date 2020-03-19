@@ -151,7 +151,14 @@ Asetetaan tiedostoon sisällöksi alla olevat rivit:
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AllowOverride All
 >\</Directory>
 
-WordPressissä on ns permalink ominaisuus, jolla esimerkiksi blogipostauksiin voidaan viitata muuttumattomilla linkeillä. Permalink ominaisuuden mahdollistamiseksi Rewrite -moduli voidaan aktivoida komennolla:
+Astetaan verkkosivujen juurikansioksi /var/www/wordpress/ muokkaamalla tiedostoa /etc/apache2/sites-available/000-default.conf
+
+>\$ sudo nano /etc/apache2/sites-available/000-default.conf
+
+Muokataan tiedostossa DocumentRoot rivi muotoon:
+> DocumentRoot /var/www/wordpress/
+
+WordPressissä on ns. permalink -ominaisuus, jolla esimerkiksi blogipostauksiin voidaan viitata muuttumattomilla linkeillä. Permalink ominaisuuden mahdollistamiseksi Rewrite -moduli voidaan aktivoida komennolla:
 
 >\$ sudo a2enmod rewrite
 
@@ -165,6 +172,62 @@ Komennon tuloksena saattaa tulla virhe, mutta lopuksi kuitenkin tulisi tulostua 
 
 
 # 3. WordPress CMS asennus
+
+Aluksi luodaan väliaikainen kansio juureen. Ja haetaan wordpress.org osoitteesta viimeisin Wordpress versio. 
+>\$ cd /tmp
+>\$ curl -O https://wordpress.org/latest.tar.gz
+
+Puretaan haettu tiedosto ja luodaan ns dummy .htaccess tiedosto wordpressin myöhempää käyttöä varten. 
+
+>\$ tar xzvf latest.tar.gz
+>\$ touch /tmp/wordpress/.htaccess
+
+Haetun paketin mukana tulee myös esimerkki-konfiguraatiotiedosto, joka voidaan ottaa pohjaksi konfiguraatioillemme. Kopioidaan tiedosto nimelle, jota Wordpress lukee. 
+
+>\$ cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
+
+Luodaan vielä käyttöoikeusongelmia silmälläpitäen upgrade-kansio, jota wordpress tarvitsee ohjelmistopäivityksissä.
+
+>\$ mkdir /tmp/wordpress/wp-content/upgrade
+
+Lopuksi kopioidaan kaikki tiedostot oikeaan kansioon. 
+
+>\$ sudo cp -a /tmp/wordpress/. /var/www/wordpress
+
+
+
+>\$ sudo chown -R www-data:www-data /var/www/wordpress
+
+
+>\$ sudo find /var/www/wordpress/ -type d -exec chmod 750 {} \;
+
+
+>\$ sudo find /var/www/wordpress/ -type f -exec chmod 640 {} \;
+
+
+>\$ curl -s https://api.wordpress.org/secret-key/1.1/salt/
+
+
+>\$ sudo nano /var/www/wordpress/wp-config.php
+
+![](authkeys.png)
+
+Seuraavaksi muokataan samassa tiedostossa alla olevia rivejä. Riveille annetaan Wordpressin käyttöön luomamme tietokannan nimi, käyttäjän nimi ja käyttäjän salasana. 
+
+![](mysql_wp.png)
+
+>\$
+
+
+>\$
+
+
+>\$
+
+![](wp1.png)
+![](wp2.png)
+![](wp3.png)
+
 
 # 4. WooCommerce asennnus
 
