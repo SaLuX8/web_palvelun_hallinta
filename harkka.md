@@ -226,7 +226,7 @@ Seuraavaksi muokataan samassa tiedostossa alla olevia rivejä, jotka liittyvät 
 
 ![](mysql_wp.png)
 
-## 3.3. WordPress aseenuksen viimeistely
+## 3.3. WordPress asennuksen viimeistely
 
 WordPressin asennuksen viimeistely tehdään siirtymällä selaimella serverin osoitteeseen http://oma-ip-osoite.
 
@@ -241,9 +241,47 @@ Asennuksen jälkeen olet valmiina kirjautumaan sisään WordPressiin.
 
 # 4. WooCommerce asennnus
 
+WooCommerce on avoimen lähdekoodin verkkokauppa-alusta käytettäväksi WordPressissä. Verkkokauppa on verrattain helppo ja nopea pystyttää ja verkossa on saatavilla runsaasti ohjeita ja lisäosia muun muassa maksutapoihin myös suomalaisille käyttäjille.  
+
+WooCommercen asennus tapahtuu WordPressin hallintapaneelista kohdasta plugins / add new. Hakusanalla woocommerce löytyy oikea lisäosa.
+
+![](woo1.png)
+
+Ensimmäisenä täytetään verkkokaupan perustiedot.
+![](woo2.png)
+
+Seuraavaksi voidaan valita jo pari eri maksutapaa. Mikäli valintoja ei tee tässä vaiheessa on lisäosat mahdollista asentaa myös myöhemmin. Saatavana on paljon myös muita lisäosia maksamiseen liittyen. Maksamiseen liittyvät lisäosat tarvitsevat luonnollisesti oman sopimuksen tai käyttäjätilin itse palveluntarjoajan kanssa.
+
+![](wp4.png)
+
+
+Alkuvalintojen jälkeen voidaan vaikkapa aloittaa tuotteiden lisäys verkkokauppaan!
+
+![](wp7.png)
+
 # 5. Johtopäätökset
 
 # 6. Lähteet
+
+https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lamp-on-ubuntu-18-04
+
+https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-ubuntu-18-04
+
+https://www.wpwhitesecurity.com/wordpress-security-keys/
+
+https://www.wpbeginner.com/beginners-guide/what-why-and-hows-of-wordpress-security-keys/
+
+https://wordpress.org/support/article/using-permalinks/
+
+https://www.tecmint.com/install-wordpress-on-ubuntu-16-04-with-lamp/
+
+https://websiteforstudents.com/install-wordpress-woocommerce-with-apache2-mariadb-and-php-7-2-on-ubuntu-16-04-17-10-18-04/
+
+
+
+
+
+
 
 Harjoitustyön nimi, tekijöiden nimet, päivämäärä ja tieto siitä, että kyseessä on Verkkopalvelut -opintojakson harjoitustyö.
 Tehtävän kuvaus / Johdanto. Esim. "Nykyiset Internetin sovellusprotollat ovat hyvin turvattomia... varsinkin e- kaupankäynnissä on välttämätöntä salata http-liikennettä... https-"protokolla" on ratkaisu; Se... ... Tässä työssä asennetaan Linux alustalle SSL-kykyinen Apache Web-palvelin"
