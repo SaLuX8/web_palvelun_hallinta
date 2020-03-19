@@ -23,22 +23,33 @@ TTMS0800 Web-palvelun hallinta harjoitustyö
 Testausta  
 
 # 2. Esivalmistelut
-\$ sudo apt update  
-\$ sudo apt upgrade  
-\$ sudo apt install apache2
+>\$ sudo apt update  
+>\$ sudo apt upgrade  
+>\$ sudo apt install apache2
 
-\$ sudo ufw app list
+Apachen asennuksen jälkeen asetetaan UFW-työkalulla palomuuriin sopivat asetukset Apachea varten. UFW:ssä on valmiiksi joitain profiileita eri sovelluksia varten. Valmiit profiilit voi listata komennolla: 
+>\$ sudo ufw app list
 
-*Available applications:
-  Apache
-  Apache Full
-  Apache Secure
-  OpenSSH*
+
+>*Available applications:
+&nbsp;&nbsp;&nbsp; Apache  
+&nbsp;&nbsp;&nbsp; Apache Full
+&nbsp;&nbsp;&nbsp; Apache Secure
+&nbsp;&nbsp;&nbsp; OpenSSH*
 
 Komennolla
-\$ sudo ufw app info "Apache Full"
+>\$ sudo ufw app info "Apache Full"
 nähdään ufw:n valmiin profiilin tiedot. Tiedoista käy ilmi, että ufw:n palomuuriin sallitaan TCP-liikenne portteihin 80 ja 443. Portit ovat http ja ssh -protokollien käyttämät portit.  
+
+Lisätään palomuuriin profiili Apache Full.  
 \$ sudo ufw allow in "Apache Full"
+
+Seuraavaksi käynnistetään apache2 palvelu uudelleen komennolla:
+\$ systemctl restart apache2
+Ja tarkistetaan, että palvelu on käynnissä komennolla
+\$ systemctl status apache2
+
+
 ## 2.1. LAMP
 ## 2.2. PHP
 ## 2.3. MariaDB
