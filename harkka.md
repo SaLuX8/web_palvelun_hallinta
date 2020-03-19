@@ -23,10 +23,19 @@ TTMS0800 Web-palvelun hallinta harjoitustyö
 Harjoitustyössä luodaan täysin toimiva WordPress CMS alusta WooCommerce -kauppapaikkalaajennoksella Ubuntu 18.04 server käyttöjärjestelmään. Harjoitustyö tehdään Digital Ocean droplettiin, joka toimii harjoitustyön ajan osoitteessa 134.122.85.70.  
 
 # 2. Esivalmistelut
+
+
+Luodaan aluksi uusi käyttäjä, jolle annetaan sudo oikeudet. 
+>\$ sudo useradd -m -s /bin/bash *your_user*
+>\$ usermod -aG sudo *your_user*
+
+Lisäksi asetetaan uudelle käyttäjälle salasana, jonka jälkeen siirrytään käyttämään luotua käyttäjää. Tästä eteenpäin kaikki komennot tehdään luodulla käyttäjällä.
+>\$ passwd *your_user*
+>\$ su *your_user*
+
+Aivan aluksi päivitetään aptitude kirjasto ja järjestelmä. Tällöin käytämme asennuksissa varmasti viimeisimpiä ohjelmistoja.
 >\$ sudo apt update  
 >\$ sudo apt upgrade  
-
-
 
 ## 2.1. Apache
 >\$ sudo apt install apache2
@@ -113,12 +122,46 @@ Seuraavaksi asennetaan muutamia yleisimpiä PHP-laajennuksia Wordpressin käytt�
 
 >\$ sudo systemctl restart apache2
 
-Ennen seuraavan vaiheeseen siirtymistä kannattaa tarkistaa, että php on asentunut. Asennuksen voi tarkistaa esimerkiksi tarkistamalla PHP:n version.
->\$ php --version
+Ennen seuraavan vaiheeseen siirtymistä kannattaa tarkistaa, että php on asentunut. Tehdään testisivu tätä varten.
+>\$ sudo nano /var/www/html/info.php
 
-Tuloksena tulisi tulostua PHP:n versionumero sekä mm. copyright tietoja.
+Sisällöksi sivulle annetaan seuraavat rivit:
+> \<?php 
+phpinfo();
+?>
 
-##2.4. Apachen lisäasetuksia
+Mikäli PHP on asentunut oikein nähdään alla oleva kuva selaimella osoitteessa:
+>http://oma.ip-osoitteesi/info.php
+
+![](php1.PNG)
+
+
+
+## 2.4. Apachen lisäasetuksia
+WordPress ja useat sen lisäosat käyttävät .htaccess tiedostoja kansiokohtaisiin muokkauksiin. Tämän vuoksi .htaccess tiedostojen käyttö (.htaccess override and rewrite) tulee sallia.  
+Seuraavassa teemme muokkaukset sillä oletuksella, että Wordpressin juurikansio on /var/www/wordpress/.  
+
+Luodaan wordpress.conf konfigurointitiedosto.
+
+>\$ sudo nano /etc/apache2/sites-available/wordpress.conf
+
+Asetetaan tiedostoon sisällöksi alla olevat rivit:
+
+>\<Directory /var/www/wordpress/>
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AllowOverride All
+>\</Directory>
+
+WordPressissä on ns permalink ominaisuus, jolla esimerkiksi blogipostauksiin voidaan viitata muuttumattomilla linkeillä. Permalink ominaisuuden mahdollistamiseksi Rewrite -moduli voidaan aktivoida komennolla:
+
+>\$ sudo a2enmod rewrite
+
+Lopuksi testataan, että kaikki toimii syntaksin puolesta.  
+
+>\$ sudo apache2ctl configtest
+
+Komennon tuloksena saattaa tulla virhe, mutta lopuksi kuitenkin tulisi tulostua "Syntax OK". Mikäli näin on jatketaan käynnistämällä apache -palvelu uudelleen.
+
+>\$ sudo systemctl restart apache2
 
 
 # 3. WordPress CMS asennus
