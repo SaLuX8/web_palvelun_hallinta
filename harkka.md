@@ -23,6 +23,22 @@ TTMS0800 Web-palvelun hallinta harjoitustyö
 Testausta  
 
 # 2. Esivalmistelut
+\$ sudo apt update  
+\$ sudo apt upgrade  
+\$ sudo apt install apache2
+
+\$ sudo ufw app list
+
+*Available applications:
+  Apache
+  Apache Full
+  Apache Secure
+  OpenSSH*
+
+Komennolla
+\$ sudo ufw app info "Apache Full"
+nähdään ufw:n valmiin profiilin tiedot. Tiedoista käy ilmi, että ufw:n palomuuriin sallitaan TCP-liikenne portteihin 80 ja 443. Portit ovat http ja ssh -protokollien käyttämät portit.  
+\$ sudo ufw allow in "Apache Full"
 ## 2.1. LAMP
 ## 2.2. PHP
 ## 2.3. MariaDB
