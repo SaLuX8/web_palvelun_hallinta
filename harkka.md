@@ -20,7 +20,7 @@ TTMS0800 Web-palvelun hallinta harjoitustyö
 
 
 # 1. Johdanto  
-Testausta  
+Harjoitustyössä luodaan täysin toimiva WordPress CMS alusta WooCommerce -kauppapaikkalaajennoksella Ubuntu 18.04 server käyttöjärjestelmään. Harjoitustyö tehdään Digital Ocean droplettiin, joka toimii harjoitustyön ajan osoitteessa 134.122.85.70.  
 
 # 2. Esivalmistelut
 >\$ sudo apt update  
@@ -112,6 +112,14 @@ Seuraavaksi asennetaan muutamia yleisimpiä PHP-laajennuksia Wordpressin käytt�
 >\$ sudo apt install php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip
 
 >\$ sudo systemctl restart apache2
+
+Ennen seuraavan vaiheeseen siirtymistä kannattaa tarkistaa, että php on asentunut. Asennuksen voi tarkistaa esimerkiksi tarkistamalla PHP:n version.
+>\$ php --version
+
+Tuloksena tulisi tulostua PHP:n versionumero sekä mm. copyright tietoja.
+
+##2.4. Apachen lisäasetuksia
+
 
 # 3. WordPress CMS asennus
 
