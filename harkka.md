@@ -2,14 +2,36 @@ WordPress CMS julkaisujärjestelmä ja WooCommerce lisäosa
 ========================================================
 Asennus Ubuntu 18.04 käyttöjärjestelmään
 ----------------------------------------
+Sami Luoma-aho, N4939  
+19.3.2020  
+TTMS0800 Web-palvelun hallinta harjoitustyö  
 
 
-Sami Luoma-aho
-##
-**Harkka**  
+[1. Johdanto](#1-johdanto)  
+[2. Esivalmistelut](#2-esivalmistelut)  
+- [2.1. LAMP](#21-lamp)  
+- [2.2. PHP](#22-php)  
+- [2.3. MariaDB](#23-mariadb)  
+
+[3. WordPress CMS asennus](#3-wordpress-cms-asennus)  
+[4. WooCommerce asennnus](#4-woocommerce-asennnus)  
+[5. Johtopäätökset](#5-johtopäätökset)  
+
+
+
+# 1. Johdanto  
 Testausta  
 
+# 2. Esivalmistelut
+## 2.1. LAMP
+## 2.2. PHP
+## 2.3. MariaDB
 
+# 3. WordPress CMS asennus
+
+# 4. WooCommerce asennnus
+
+# 5. Johtopäätökset
 
 Harjoitustyön nimi, tekijöiden nimet, päivämäärä ja tieto siitä, että kyseessä on Verkkopalvelut -opintojakson harjoitustyö.
 Tehtävän kuvaus / Johdanto. Esim. "Nykyiset Internetin sovellusprotollat ovat hyvin turvattomia... varsinkin e- kaupankäynnissä on välttämätöntä salata http-liikennettä... https-"protokolla" on ratkaisu; Se... ... Tässä työssä asennetaan Linux alustalle SSL-kykyinen Apache Web-palvelin"
