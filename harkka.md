@@ -25,6 +25,8 @@ Testausta
 # 2. Esivalmistelut
 >\$ sudo apt update  
 >\$ sudo apt upgrade  
+
+## 2.1. Apache
 >\$ sudo apt install apache2
 
 Apachen asennuksen jälkeen asetetaan UFW-työkalulla palomuuriin sopivat asetukset Apachea varten. UFW:ssä on valmiiksi joitain profiileita eri sovelluksia varten. Valmiit profiilit voi listata komennolla: 
@@ -38,21 +40,57 @@ Apachen asennuksen jälkeen asetetaan UFW-työkalulla palomuuriin sopivat asetuk
 &nbsp;&nbsp;&nbsp; OpenSSH*
 
 Komennolla
->\$ sudo ufw app info "Apache Full"
+>\$ sudo ufw app info "Apache Full"  
+
 nähdään ufw:n valmiin profiilin tiedot. Tiedoista käy ilmi, että ufw:n palomuuriin sallitaan TCP-liikenne portteihin 80 ja 443. Portit ovat http ja ssh -protokollien käyttämät portit.  
 
 Lisätään palomuuriin profiili Apache Full.  
-\$ sudo ufw allow in "Apache Full"
+>\$ sudo ufw allow in "Apache Full"
 
 Seuraavaksi käynnistetään apache2 palvelu uudelleen komennolla:
-\$ systemctl restart apache2
+>\$ systemctl restart apache2
+
 Ja tarkistetaan, että palvelu on käynnissä komennolla
-\$ systemctl status apache2
+>\$ systemctl status apache2
+
+![](apache1.PNG)
+Palvelun tilan tulisi olla "active (running)"
+
+## 2.2. MySQL
+
+>\$ sudo apt install mysql-server
+
+Seuraavaksi ajetaan MySQL:ään esiasennettu scripti, jolla asetetaan tiettyjä turvaominaisuuksia tietokannalle. Ominaisuuksissa määritellään muun muassa 
+- salasanan validointi, 
+- anonymous käyttäjän poisto
+- test database:n poisto
+- root käyttäjän etäyhteyden esto
+  
+>\$ sudo mysql_secure_installation
+
+Edellä mainittu tietoturvaominaisuuksien määrittely ei ole pakollinen, mutta lisää tietokannan tietoturvaa. 
+
+Seuraavaksi asetetaan root käyttäjälle salasana MySQL:ään. Aloitetaan siirtymällä MySQL:ään. 
+
+>\$ sudo mysql
+
+Alla olevalla komennolla nähdään mikäli root käyttäjällä on olemassa salasana. Salasanaa ei ole mikäli sitä ei ole erikseen asetettu.
+
+>mysql> SELECT user,authentication_string,plugin,host FROM mysql.user;
+
+Asetetaan salasana ja asetetaan muutokset voimaan komennoilla:
+
+>mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '  *your password*  ';
+
+>mysql> FLUSH PRIVILEGES;
+
+Halutessasi voit vielä tarkistaa, että salasana on asetettu.
+![](mysql1.PNG)
 
 
-## 2.1. LAMP
-## 2.2. PHP
-## 2.3. MariaDB
+
+## 2.3. PHP
+
 
 # 3. WordPress CMS asennus
 
