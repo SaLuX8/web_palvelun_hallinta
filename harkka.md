@@ -186,7 +186,7 @@ Haetun paketin mukana tulee myös esimerkki-konfiguraatiotiedosto, joka voidaan 
 
 >\$ cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
 
-Luodaan vielä käyttöoikeusongelmia silmälläpitäen upgrade-kansio, jota wordpress tarvitsee ohjelmistopäivityksissä.
+WordPress käyttää upgrade kansiota tehdessään ohjelmistopäivityksiä. Luodaan kansio valmiiksi, jotta ehkäistään mahdolliset käyttöoikeusongelmat, kun WordPress yrittää luoda kansiota.
 
 >\$ mkdir /tmp/wordpress/wp-content/upgrade
 
@@ -194,44 +194,56 @@ Lopuksi kopioidaan kaikki tiedostot oikeaan kansioon.
 
 >\$ sudo cp -a /tmp/wordpress/. /var/www/wordpress
 
+## 3.1. Käyttöoikeuksien säätäminen
 
+Wordpressin toiminnan kannalta ja toisaalta riittävän tietoturvan kannalta on olennaista säätää tiedostojen ja kansioiden omistus ja oikeudet oikein.  
+Apache webserver toimii www-data käyttäjänä. Jotta Apache voisi kirjoittaa ja lukea WordPressin tiedostoja, täytyy sille antaa riittävät oikeudet. Asetetaan wordpress-kansio www-data käyttäjän omistukseen chown-komennolla.
 
 >\$ sudo chown -R www-data:www-data /var/www/wordpress
 
+Seuraavilla kahdella find-komennolla annetaan wordpress-kansiossa oleville kansioille oikeudet 750 ja tiedostoille 640.
 
 >\$ sudo find /var/www/wordpress/ -type d -exec chmod 750 {} \;
-
-
 >\$ sudo find /var/www/wordpress/ -type f -exec chmod 640 {} \;
 
+## 3.2. wp-config.php
+
+Wordpress -kansiossa oleva tiedosto wp-config.php on Wordpressin konfiguraatio-tiedosto. WP-config.php sisältää muun muassa sisäisesti käytettävät yksilölliset "turva-avaimet" (Wordpress security keys). Avaimet varmistavat mm. paremman salauksen käyttäjien evästeisiin tallennetteuihin tietoihin.
+
+Wordpressiltä on saatavissa suoraan sarja satunnaisia avaimia oikeassa muodossa. Avaimet voi hakea komennolla:
 
 >\$ curl -s https://api.wordpress.org/secret-key/1.1/salt/
 
+Seuraavaksi haetut avaimet täytyy kopioida oikeaan kohtaan wp-config.php -tiedostossa. Avataan tiedosto editointia varten.
 
 >\$ sudo nano /var/www/wordpress/wp-config.php
 
+Alla olevan kuvan mukaiset rivit korvataan WordPressiltä haetuille avaimilla. 
+
 ![](authkeys.png)
 
-Seuraavaksi muokataan samassa tiedostossa alla olevia rivejä. Riveille annetaan Wordpressin käyttöön luomamme tietokannan nimi, käyttäjän nimi ja käyttäjän salasana. 
+Seuraavaksi muokataan samassa tiedostossa alla olevia rivejä, jotka liittyvät MySQL:ään. Riveille annetaan Wordpressin käyttöön luomamme MySQL - tietokannan nimi, käyttäjän nimi ja käyttäjän salasana. 
 
 ![](mysql_wp.png)
 
->\$
+## 3.3. WordPress aseenuksen viimeistely
 
+WordPressin asennuksen viimeistely tehdään siirtymällä selaimella serverin osoitteeseen http://oma-ip-osoite.
 
->\$
-
-
->\$
+Ensimmäisenä valitaan käytettävä kieli, jonka jälkeen annetaan sivustolle nimi ja valitaan käyttäjänimi sekä annetaan salasana ja oma sähköpostiosoite. Lopuksi painetaan asennuspainiketta.
 
 ![](wp1.png)
-![](wp2.png)
-![](wp3.png)
 
+Asennuksen jälkeen olet valmiina kirjautumaan sisään WordPressiin.
+![](wp2.png)
+
+![](wp3.png)
 
 # 4. WooCommerce asennnus
 
 # 5. Johtopäätökset
+
+# 6. Lähteet
 
 Harjoitustyön nimi, tekijöiden nimet, päivämäärä ja tieto siitä, että kyseessä on Verkkopalvelut -opintojakson harjoitustyö.
 Tehtävän kuvaus / Johdanto. Esim. "Nykyiset Internetin sovellusprotollat ovat hyvin turvattomia... varsinkin e- kaupankäynnissä on välttämätöntä salata http-liikennettä... https-"protokolla" on ratkaisu; Se... ... Tässä työssä asennetaan Linux alustalle SSL-kykyinen Apache Web-palvelin"
