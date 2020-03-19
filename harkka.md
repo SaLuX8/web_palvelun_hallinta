@@ -26,6 +26,8 @@ Testausta
 >\$ sudo apt update  
 >\$ sudo apt upgrade  
 
+
+
 ## 2.1. Apache
 >\$ sudo apt install apache2
 
@@ -87,10 +89,29 @@ Asetetaan salasana ja asetetaan muutokset voimaan komennoilla:
 Halutessasi voit vielä tarkistaa, että salasana on asetettu.
 ![](mysql1.PNG)
 
+WordPress tarvitsee toimiakseen oman tietokannan. Tietokannan nimellä ei ole merkitystä, mutta käytämme tässä tietokannalla nimeä "wordpress". Luodaan tietokanta Wordpressin käyttöön komennolla:
 
+>mysql> CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+Tietokannan luonnin jälkeen luodaan erillinen MySQL-käyttäjä, jolla on oikeudet käyttää luotua tietokantaa. Jälleen käyttäjänimi voi olla mikä tahansa, mutta käytämme tässä nimeä "wordpressuser". Komennon jälkeen asetetaan muutokset voimaan ja poistutaan mysql:stä.
+
+>mysql> GRANT ALL ON wordpress.* TO 'wordpressuser'@'localhost' IDENTIFIED BY '  *your password*   ';
+
+>mysql> FLUSH PRIVILEGES;
+
+>mysql> EXIT;
 
 ## 2.3. PHP
 
+WordPress tarvitsee toimiakseen myös PHP:n ja joitain PHP laajennuksia. Asennetaan aluksi php sekä kaksi "apupakettia", jotta php voi keskutella apachen ja mysql:n kanssa. 
+
+>\$ sudo apt install php libapache2-mod-php php-mysql
+
+Seuraavaksi asennetaan muutamia yleisimpiä PHP-laajennuksia Wordpressin käyttöön. Asennuksen jälkeen käynnistetään Apache uudelleen seuraavaa vaihetta varten.
+
+>\$ sudo apt install php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip
+
+>\$ sudo systemctl restart apache2
 
 # 3. WordPress CMS asennus
 
