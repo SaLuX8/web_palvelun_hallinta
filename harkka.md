@@ -22,6 +22,8 @@ TTMS0800 Web-palvelun hallinta harjoitustyö
 # 1. Johdanto  
 Harjoitustyössä luodaan täysin toimiva WordPress CMS alusta WooCommerce -kauppapaikkalaajennoksella Ubuntu 18.04 server käyttöjärjestelmään. Harjoitustyö tehdään Digital Ocean droplettiin, joka toimii harjoitustyön ajan osoitteessa 134.122.85.70.  
 
+WordPress on avoimen lähdekoodin julkaisualusta, jota käytetään varsin laajasti myös verkkokauppojen alustana muun muassa WooCommerce lisäosan kanssa. 
+
 # 2. Esivalmistelut
 
 
