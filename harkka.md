@@ -11,12 +11,12 @@ TTMS0800 Web-palvelun hallinta harjoitustyö
 
 
 # 1. Johdanto  
-Harjoitustyössä luodaan täysin toimiva WordPress CMS alusta WooCommerce -kauppapaikkalaajennoksella Ubuntu 18.04 server käyttöjärjestelmään. Harjoitustyö tehdään Digital Ocean droplettiin, joka toimii harjoitustyön ajan osoitteessa 134.122.85.70.  
+WordPress on avoimen lähdekoodin julkaisualusta, jota käytetään erittäin laajasti myös verkkokauppojen alustana muun muassa WooCommerce lisäosan kanssa. Erään [lähteen](https://hostingtribunal.com/blog/wordpress-statistics/#gref) mukaan, WordPress toimii noin 35%:ssa internetsivustoja ja CMS (content mnagement system) ohjelmistoja hyödyntävistä sivuista jopa 60% on WordPressillä toteutettuja. Saman lähteen mukaan 28% kaikesta verkkokaupasta tehdään WooCommerce lisäosalla ja 281 uutta WooCommerce kauppaa avautuu joka päivä. Vaikka lukujen tarkkuutta voi olla vaikea todentaa, selvää on, että WordPress on erittäin merkittävä CMS alusta ja toisaalta WooCommerce erittäin merkittävä kauppapaikkasovellus. 
 
-WordPress on avoimen lähdekoodin julkaisualusta, jota käytetään varsin laajasti myös verkkokauppojen alustana muun muassa WooCommerce lisäosan kanssa. 
+Harjoitustyössä luodaan täysin toimiva WordPress CMS alusta WooCommerce -kauppapaikkalaajennoksella Ubuntu 18.04 server käyttöjärjestelmään. Harjoitustyö tehdään Digital Ocean droplettiin, joka toimii harjoitustyön ajan osoitteessa 134.122.85.70. Etäyhteyden ottamiseen työssä käytetään Putty SSH-etäohjelmaa ja SSH-avainparin luomiseen puttygen -ohjelmistoa. Molemmat ohjelmistot on saatavissa Windows käyttöjärjestelmään.  
+
 
 # 2. Esivalmistelut
-
 
 Luodaan aluksi uusi käyttäjä, jolle annetaan sudo oikeudet. 
 >\$ sudo useradd -m -s /bin/bash *your_user*
