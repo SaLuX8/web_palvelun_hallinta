@@ -7,16 +7,7 @@ Sami Luoma-aho, N4939
 TTMS0800 Web-palvelun hallinta harjoitustyö  
 
 
-[1. Johdanto](#1-johdanto)  
-[2. Esivalmistelut](#2-esivalmistelut)  
-- [2.1. LAMP](#21-lamp)  
-- [2.2. PHP](#22-php)  
-- [2.3. MariaDB](#23-mariadb)  
-
-[3. WordPress CMS asennus](#3-wordpress-cms-asennus)  
-[4. WooCommerce asennnus](#4-woocommerce-asennnus)  
-[5. Johtopäätökset](#5-johtopäätökset)  
-
+<!-- TOC -->autoauto- [1. Johdanto](#1-johdanto)auto- [2. Esivalmistelut](#2-esivalmistelut)auto    - [2.1. Apache](#21-apache)auto    - [2.2. MySQL](#22-mysql)auto    - [2.3. PHP](#23-php)auto    - [2.4. Apachen lisäasetuksia](#24-apachen-lisäasetuksia)auto- [3. WordPress CMS asennus](#3-wordpress-cms-asennus)auto    - [3.1. Käyttöoikeuksien säätäminen](#31-käyttöoikeuksien-säätäminen)auto    - [3.2. wp-config.php](#32-wp-configphp)auto    - [3.3. WordPress asennuksen viimeistely](#33-wordpress-asennuksen-viimeistely)auto- [4. WooCommerce asennnus](#4-woocommerce-asennnus)auto- [5. Johtopäätökset](#5-johtopäätökset)auto- [6. Lähteet](#6-lähteet)autoauto<!-- /TOC -->
 
 
 # 1. Johdanto  
@@ -38,6 +29,44 @@ Lisäksi asetetaan uudelle käyttäjälle salasana, jonka jälkeen siirrytään 
 Aivan aluksi päivitetään aptitude kirjasto ja järjestelmä. Tällöin käytämme asennuksissa varmasti viimeisimpiä ohjelmistoja.
 >\$ sudo apt update  
 >\$ sudo apt upgrade  
+
+## 2.1. SSH-avaimen asettaminen 
+
+Myöhempää ylläpitoa ja tietoturvaa parantaaksemme, asennetaan serverille ssh-avain, jolla jatkossa salasanan sijaan tunnistaudumme serverille. Kytketään myös salasanalla kirjautuminen kokonaan pois päältä. 
+
+Aluksi luodaan rsa-avainpari esimerkiksi Windowsiin saatavilla olevalla puttygen -ohjelmalla (kuva alla), jonka jälkeen kopioidaan avainparin julkinen osa serverille. Yksityinen avain tallennetaan omalle koneelle. Tässä luomme avaimen juuri luodulle käyttäjälle.   
+
+![](ssh1.png)
+
+Ensiksi luodaan tarvittava kansio, jonne julkinen avain sijoitetaan. Tämän jälkeen luodaan tiedosto, jonne julkinen avain kopioidaan.
+
+>\$ mkdir ~/.ssh
+>\$ nano ~/.ssh/authorized_keys
+
+Authorized_keys tiedostoon lisätään puttygen-ohjelmalla luotu julkinen avainpari **yhdelle riville**. Rivi alkaa sanoilla "ssh-rsa", jonka jälkeen tulee välilyönti. Muita välilyöntejä ei saa olla. Tallennetaan tiedosto.
+
+Lopuksi asetataan vielä oikeudet kuntoon ja käynnistetään ssh-palvelu uudelleen:
+
+>\$ chmod 700 ~/.ssh
+>\$ chmod 600 ~/.ssh/authorized_keys
+>\$ sudo systemctl restart ssh.service
+
+Kun seuraavan kerran otetaan yhteyttä esimerkiksi Putty-ohjelmalla tulee avainparin yksityinen osa lisätä luotavan yhteyden konfiguraatiotietoihin. 
+
+![](ssh2.png)
+
+Tämän jälkeen luodun käyttäjän tunnuksella serverille kirjautuessa ei tarvita enää salasanaa.
+
+>\$ sudo nano /etc/ssh/sshd_config
+
+Muokataan alla olevat rivit esitetyiksi sshd_confgi -tiedostosta. Muokkauksilla estetään root-käyttäjän kirjautuminen serverille ja estetään salasanalla kirjautuminen. **Huomaa, että ennen muutoksia on hyvä kuitenkin testata, että ssh-avaimella kirjautuminen onnistuu.** Muutoksen jälkeen avaimia ei serverille enää helposti saa. Tämä osio ei myöskään ole mitenkään pakollinen WordPressin toiminnan kannalta.
+
+>ChallengeResponseAuthentication no
+PermitRootLogin no
+PasswordAuthentication no
+UsePAM no
+
+
 
 ## 2.1. Apache
 >\$ sudo apt install apache2
@@ -87,7 +116,7 @@ Seuraavaksi asetetaan root käyttäjälle salasana MySQL:ään. Aloitetaan siirt
 
 >\$ sudo mysql
 
-Alla olevalla komennolla nähdään mikäli root käyttäjällä on olemassa salasana. Salasanaa ei ole mikäli sitä ei ole erikseen asetettu.
+Alla olevalla komennolla nähdään, mikäli root käyttäjällä on jo salasana. Salasana ei näy selväkielisessä muodossa vaan merkkijonona kohdassa "authentication_string". Mikäli kohta on root-käyttäjän kohdalla tyhjä, salasanaa ei ole asetettu.
 
 >mysql> SELECT user,authentication_string,plugin,host FROM mysql.user;
 
@@ -132,7 +161,7 @@ Sisällöksi sivulle annetaan seuraavat rivit:
 phpinfo();
 ?>
 
-Mikäli PHP on asentunut oikein nähdään alla oleva kuva selaimella osoitteessa:
+Mikäli PHP on asentunut oikein, nähdään alla oleva kuva selaimella osoitteessa:
 >http://oma.ip-osoitteesi/info.php
 
 ![](php1.PNG)
@@ -208,6 +237,7 @@ Seuraavilla kahdella find-komennolla annetaan wordpress-kansiossa oleville kansi
 >\$ sudo find /var/www/wordpress/ -type d -exec chmod 750 {} \;
 >\$ sudo find /var/www/wordpress/ -type f -exec chmod 640 {} \;
 
+
 ## 3.2. wp-config.php
 
 Wordpress -kansiossa oleva tiedosto wp-config.php on Wordpressin konfiguraatio-tiedosto. WP-config.php sisältää muun muassa sisäisesti käytettävät yksilölliset "turva-avaimet" (Wordpress security keys). Avaimet varmistavat mm. paremman salauksen käyttäjien evästeisiin tallennetteuihin tietoihin.
@@ -227,6 +257,10 @@ Alla olevan kuvan mukaiset rivit korvataan WordPressiltä haetuille avaimilla.
 Seuraavaksi muokataan samassa tiedostossa alla olevia rivejä, jotka liittyvät MySQL:ään. Riveille annetaan Wordpressin käyttöön luomamme MySQL - tietokannan nimi, käyttäjän nimi ja käyttäjän salasana. 
 
 ![](mysql_wp.png)
+
+Lopuksi on tärkeää asettaa wp-config.php -tiedostolle tiukemmat oikeudet kuin muille tiedostoille.
+
+>\$ sudo chmod 400 /var/www/wordpress/wp-cpnfig.php
 
 ## 3.3. WordPress asennuksen viimeistely
 
@@ -263,21 +297,23 @@ Alkuvalintojen jälkeen voidaan vaikkapa aloittaa tuotteiden lisäys verkkokaupp
 
 # 5. Johtopäätökset
 
+
+
 # 6. Lähteet
 
-https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lamp-on-ubuntu-18-04
+[WordPressin asennus](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lamp-on-ubuntu-18-04)
 
-https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-ubuntu-18-04
+[LAMP Stack asennus](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-ubuntu-18-04)
 
-https://www.wpwhitesecurity.com/wordpress-security-keys/
+[WordPress Security Keys](https://www.wpwhitesecurity.com/wordpress-security-keys/)
 
-https://www.wpbeginner.com/beginners-guide/what-why-and-hows-of-wordpress-security-keys/
+[WordPress, why and how Security Keys](https://www.wpbeginner.com/beginners-guide/what-why-and-hows-of-wordpress-security-keys/)
 
-https://wordpress.org/support/article/using-permalinks/
+[WordPress Permalinks](https://wordpress.org/support/article/using-permalinks/)
 
-https://www.tecmint.com/install-wordpress-on-ubuntu-16-04-with-lamp/
+[WordPress with LAMP on Ubuntu](https://www.tecmint.com/install-wordpress-on-ubuntu-16-04-with-lamp/)
 
-https://websiteforstudents.com/install-wordpress-woocommerce-with-apache2-mariadb-and-php-7-2-on-ubuntu-16-04-17-10-18-04/
+[WordPress and WooCommerce with LAMP](https://websiteforstudents.com/install-wordpress-woocommerce-with-apache2-mariadb-and-php-7-2-on-ubuntu-16-04-17-10-18-04/)
 
 
 
