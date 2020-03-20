@@ -75,11 +75,11 @@ Apachen asennuksen jälkeen asetetaan UFW-työkalulla palomuuriin sopivat asetuk
 >\$ sudo ufw app list
 
 
->*Available applications:
+>*Available applications:  
 &nbsp;&nbsp;&nbsp; Apache  
-&nbsp;&nbsp;&nbsp; Apache Full
-&nbsp;&nbsp;&nbsp; Apache Secure
-&nbsp;&nbsp;&nbsp; OpenSSH*
+&nbsp;&nbsp;&nbsp; Apache Full  
+&nbsp;&nbsp;&nbsp; Apache Secure  
+&nbsp;&nbsp;&nbsp; OpenSSH*  
 
 Komennolla
 >\$ sudo ufw app info "Apache Full"  
