@@ -7,7 +7,7 @@ Sami Luoma-aho, N4939
 TTMS0800 Web-palvelun hallinta harjoitustyö  
 
   
-**SISÄLLYS**
+**SISÄLLYS**  
 [1. Johdanto](#1-johdanto)  
 [2. Esivalmistelut](#2-esivalmistelut)  
 - [2.1. SSH-avaimen asettaminen](#21-ssh-avaimen-asettaminen)  
