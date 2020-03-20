@@ -150,23 +150,23 @@ Tietokannan luonnin jälkeen luodaan erillinen MySQL-käyttäjä, jolla on oikeu
 
 ## 2.3. PHP
 
-WordPress tarvitsee toimiakseen myös PHP:n ja joitain PHP laajennuksia. Asennetaan aluksi php sekä kaksi "apupakettia", jotta php voi keskutella apachen ja mysql:n kanssa. 
+WordPress tarvitsee toimiakseen myös PHP:n ja joitain PHP laajennuksia. Asennetaan aluksi php sekä kaksi "apupakettia", jotta php voi keskutella apachen ja mysql:n kanssa.  
 
->\$ sudo apt install php libapache2-mod-php php-mysql
+>\$ sudo apt install php libapache2-mod-php php-mysql  
 
-Seuraavaksi asennetaan muutamia yleisimpiä PHP-laajennuksia Wordpressin käyttöön. Asennuksen jälkeen käynnistetään Apache uudelleen seuraavaa vaihetta varten.
+Seuraavaksi asennetaan muutamia yleisimpiä PHP-laajennuksia Wordpressin käyttöön. Asennuksen jälkeen käynnistetään Apache uudelleen seuraavaa vaihetta varten.  
 
->\$ sudo apt install php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip
+>\$ sudo apt install php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip  
 
->\$ sudo systemctl restart apache2
+>\$ sudo systemctl restart apache2  
 
 Ennen seuraavan vaiheeseen siirtymistä kannattaa tarkistaa, että php on asentunut. Tehdään testisivu tätä varten.
->\$ sudo nano /var/www/html/info.php
+>\$ sudo nano /var/www/html/info.php  
 
-Sisällöksi sivulle annetaan seuraavat rivit:
-> \<?php 
-phpinfo();
-?>
+Sisällöksi sivulle annetaan seuraavat rivit:  
+> \<?php  
+phpinfo();  
+?>  
 
 Mikäli PHP on asentunut oikein, nähdään alla oleva kuva selaimella osoitteessa:
 >http://oma.ip-osoitteesi/info.php
@@ -177,107 +177,108 @@ Mikäli PHP on asentunut oikein, nähdään alla oleva kuva selaimella osoittees
 
 ## 2.4. Apachen lisäasetuksia
 WordPress ja useat sen lisäosat käyttävät .htaccess tiedostoja kansiokohtaisiin muokkauksiin. Tämän vuoksi .htaccess tiedostojen käyttö (.htaccess override and rewrite) tulee sallia.  
+
 Seuraavassa teemme muokkaukset sillä oletuksella, että Wordpressin juurikansio on /var/www/wordpress/.  
 
 Luodaan wordpress.conf konfigurointitiedosto.
 
->\$ sudo nano /etc/apache2/sites-available/wordpress.conf
+>\$ sudo nano /etc/apache2/sites-available/wordpress.conf  
 
-Asetetaan tiedostoon sisällöksi alla olevat rivit:
+Asetetaan tiedostoon sisällöksi alla olevat rivit:  
 
->\<Directory /var/www/wordpress/>
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AllowOverride All
->\</Directory>
+>\<Directory /var/www/wordpress/>  
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AllowOverride All  
+>\</Directory>  
 
-Astetaan verkkosivujen juurikansioksi /var/www/wordpress/ muokkaamalla tiedostoa /etc/apache2/sites-available/000-default.conf
+Astetaan verkkosivujen juurikansioksi /var/www/wordpress/ muokkaamalla tiedostoa /etc/apache2/sites-available/000-default.conf  
 
->\$ sudo nano /etc/apache2/sites-available/000-default.conf
+>\$ sudo nano /etc/apache2/sites-available/000-default.conf  
 
-Muokataan tiedostossa DocumentRoot rivi muotoon:
-> DocumentRoot /var/www/wordpress/
+Muokataan tiedostossa DocumentRoot rivi muotoon:  
+> DocumentRoot /var/www/wordpress/  
 
-WordPressissä on ns. permalink -ominaisuus, jolla esimerkiksi blogipostauksiin voidaan viitata muuttumattomilla linkeillä. Permalink ominaisuuden mahdollistamiseksi Rewrite -moduli voidaan aktivoida komennolla:
+WordPressissä on ns. permalink -ominaisuus, jolla esimerkiksi blogipostauksiin voidaan viitata muuttumattomilla linkeillä. Permalink ominaisuuden mahdollistamiseksi Rewrite -moduli voidaan aktivoida komennolla:  
 
->\$ sudo a2enmod rewrite
+>\$ sudo a2enmod rewrite  
 
-Lopuksi testataan, että kaikki toimii syntaksin puolesta.  
+Lopuksi testataan, että kaikki toimii syntaksin puolesta.    
 
->\$ sudo apache2ctl configtest
+>\$ sudo apache2ctl configtest  
 
-Komennon tuloksena saattaa tulla virhe, mutta lopuksi kuitenkin tulisi tulostua "Syntax OK". Mikäli näin on jatketaan käynnistämällä apache -palvelu uudelleen.
+Komennon tuloksena saattaa tulla virhe, mutta lopuksi kuitenkin tulisi tulostua "Syntax OK". Mikäli näin on jatketaan käynnistämällä apache -palvelu uudelleen.  
 
->\$ sudo systemctl restart apache2
+>\$ sudo systemctl restart apache2  
 
 
 # 3. WordPress CMS asennus
 
-Aluksi luodaan väliaikainen kansio juureen. Ja haetaan wordpress.org osoitteesta viimeisin Wordpress versio. 
->\$ cd /tmp
->\$ curl -O https://wordpress.org/latest.tar.gz
+Aluksi luodaan väliaikainen kansio juureen. Ja haetaan wordpress.org osoitteesta viimeisin Wordpress versio.  
+>\$ cd /tmp  
+>\$ curl -O https://wordpress.org/latest.tar.gz  
 
-Puretaan haettu tiedosto ja luodaan ns dummy .htaccess tiedosto wordpressin myöhempää käyttöä varten. 
+Puretaan haettu tiedosto ja luodaan ns dummy .htaccess tiedosto wordpressin myöhempää käyttöä varten.  
 
->\$ tar xzvf latest.tar.gz
->\$ touch /tmp/wordpress/.htaccess
+>\$ tar xzvf latest.tar.gz  
+>\$ touch /tmp/wordpress/.htaccess  
 
-Haetun paketin mukana tulee myös esimerkki-konfiguraatiotiedosto, joka voidaan ottaa pohjaksi konfiguraatioillemme. Kopioidaan tiedosto nimelle, jota Wordpress lukee. 
+Haetun paketin mukana tulee myös esimerkki-konfiguraatiotiedosto, joka voidaan ottaa pohjaksi konfiguraatioillemme. Kopioidaan tiedosto nimelle, jota Wordpress lukee.  
 
->\$ cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
+>\$ cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php  
 
-WordPress käyttää upgrade kansiota tehdessään ohjelmistopäivityksiä. Luodaan kansio valmiiksi, jotta ehkäistään mahdolliset käyttöoikeusongelmat, kun WordPress yrittää luoda kansiota.
+WordPress käyttää upgrade kansiota tehdessään ohjelmistopäivityksiä. Luodaan kansio valmiiksi, jotta ehkäistään mahdolliset käyttöoikeusongelmat, kun WordPress yrittää luoda kansiota.  
 
->\$ mkdir /tmp/wordpress/wp-content/upgrade
+>\$ mkdir /tmp/wordpress/wp-content/upgrade  
 
-Lopuksi kopioidaan kaikki tiedostot oikeaan kansioon. 
+Lopuksi kopioidaan kaikki tiedostot oikeaan kansioon.  
 
->\$ sudo cp -a /tmp/wordpress/. /var/www/wordpress
+>\$ sudo cp -a /tmp/wordpress/. /var/www/wordpress  
 
 ## 3.1. Käyttöoikeuksien säätäminen
 
 Wordpressin toiminnan kannalta ja toisaalta riittävän tietoturvan kannalta on olennaista säätää tiedostojen ja kansioiden omistus ja oikeudet oikein.  
-Apache webserver toimii www-data käyttäjänä. Jotta Apache voisi kirjoittaa ja lukea WordPressin tiedostoja, täytyy sille antaa riittävät oikeudet. Asetetaan wordpress-kansio www-data käyttäjän omistukseen chown-komennolla.
+Apache webserver toimii www-data käyttäjänä. Jotta Apache voisi kirjoittaa ja lukea WordPressin tiedostoja, täytyy sille antaa riittävät oikeudet. Asetetaan wordpress-kansio www-data käyttäjän omistukseen chown-komennolla.  
 
->\$ sudo chown -R www-data:www-data /var/www/wordpress
+>\$ sudo chown -R www-data:www-data /var/www/wordpress  
 
-Seuraavilla kahdella find-komennolla annetaan wordpress-kansiossa oleville kansioille oikeudet 750 ja tiedostoille 640.
+Seuraavilla kahdella find-komennolla annetaan wordpress-kansiossa oleville kansioille oikeudet 750 ja tiedostoille 640.  
 
->\$ sudo find /var/www/wordpress/ -type d -exec chmod 750 {} \;
->\$ sudo find /var/www/wordpress/ -type f -exec chmod 640 {} \;
+>\$ sudo find /var/www/wordpress/ -type d -exec chmod 750 {} \;  
+>\$ sudo find /var/www/wordpress/ -type f -exec chmod 640 {} \;  
 
 
 ## 3.2. wp-config.php
 
-Wordpress -kansiossa oleva tiedosto wp-config.php on Wordpressin konfiguraatio-tiedosto. WP-config.php sisältää muun muassa sisäisesti käytettävät yksilölliset "turva-avaimet" (Wordpress security keys). Avaimet varmistavat mm. paremman salauksen käyttäjien evästeisiin tallennetteuihin tietoihin.
+Wordpress -kansiossa oleva tiedosto wp-config.php on Wordpressin konfiguraatio-tiedosto. WP-config.php sisältää muun muassa sisäisesti käytettävät yksilölliset "turva-avaimet" (Wordpress security keys). Avaimet varmistavat mm. paremman salauksen käyttäjien evästeisiin tallennetteuihin tietoihin.  
 
-Wordpressiltä on saatavissa suoraan sarja satunnaisia avaimia oikeassa muodossa. Avaimet voi hakea komennolla:
+Wordpressiltä on saatavissa suoraan sarja satunnaisia avaimia oikeassa muodossa. Avaimet voi hakea komennolla:  
 
->\$ curl -s https://api.wordpress.org/secret-key/1.1/salt/
+>\$ curl -s https://api.wordpress.org/secret-key/1.1/salt/  
 
-Seuraavaksi haetut avaimet täytyy kopioida oikeaan kohtaan wp-config.php -tiedostossa. Avataan tiedosto editointia varten.
+Seuraavaksi haetut avaimet täytyy kopioida oikeaan kohtaan wp-config.php -tiedostossa. Avataan tiedosto editointia varten.  
 
->\$ sudo nano /var/www/wordpress/wp-config.php
+>\$ sudo nano /var/www/wordpress/wp-config.php  
 
-Alla olevan kuvan mukaiset rivit korvataan WordPressiltä haetuille avaimilla. 
+Alla olevan kuvan mukaiset rivit korvataan WordPressiltä haetuille avaimilla.   
 
-![](authkeys.png)
+![](authkeys.png)  
 
-Seuraavaksi muokataan samassa tiedostossa alla olevia rivejä, jotka liittyvät MySQL:ään. Riveille annetaan Wordpressin käyttöön luomamme MySQL - tietokannan nimi, käyttäjän nimi ja käyttäjän salasana. 
+Seuraavaksi muokataan samassa tiedostossa alla olevia rivejä, jotka liittyvät MySQL:ään. Riveille annetaan Wordpressin käyttöön luomamme MySQL - tietokannan nimi, käyttäjän nimi ja käyttäjän salasana.   
 
-![](mysql_wp.png)
+![](mysql_wp.png)  
 
 Lopuksi on tärkeää asettaa wp-config.php -tiedostolle tiukemmat oikeudet kuin muille tiedostoille.
 
->\$ sudo chmod 400 /var/www/wordpress/wp-cpnfig.php
+>\$ sudo chmod 400 /var/www/wordpress/wp-cpnfig.php  
 
 ## 3.3. WordPress asennuksen viimeistely
 
-WordPressin asennuksen viimeistely tehdään siirtymällä selaimella serverin osoitteeseen http://oma-ip-osoite.
+WordPressin asennuksen viimeistely tehdään siirtymällä selaimella serverin osoitteeseen http://oma-ip-osoite.  
 
-Ensimmäisenä valitaan käytettävä kieli, jonka jälkeen annetaan sivustolle nimi ja valitaan käyttäjänimi sekä annetaan salasana ja oma sähköpostiosoite. Lopuksi painetaan asennuspainiketta.
+Ensimmäisenä valitaan käytettävä kieli, jonka jälkeen annetaan sivustolle nimi ja valitaan käyttäjänimi sekä annetaan salasana ja oma sähköpostiosoite. Lopuksi painetaan asennuspainiketta.  
 
 ![](wp1.png)
 
-Asennuksen jälkeen olet valmiina kirjautumaan sisään WordPressiin.
+Asennuksen jälkeen olet valmiina kirjautumaan sisään WordPressiin.  
 ![](wp2.png)
 
 ![](wp3.png)
@@ -286,43 +287,43 @@ Asennuksen jälkeen olet valmiina kirjautumaan sisään WordPressiin.
 
 WooCommerce on avoimen lähdekoodin verkkokauppa-alusta käytettäväksi WordPressissä. Verkkokauppa on verrattain helppo ja nopea pystyttää ja verkossa on saatavilla runsaasti ohjeita ja lisäosia muun muassa maksutapoihin myös suomalaisille käyttäjille.  
 
-WooCommercen asennus tapahtuu WordPressin hallintapaneelista kohdasta plugins / add new. Hakusanalla woocommerce löytyy oikea lisäosa.
+WooCommercen asennus tapahtuu WordPressin hallintapaneelista kohdasta plugins / add new. Hakusanalla woocommerce löytyy oikea lisäosa.  
 
 ![](woo1.png)
 
-Ensimmäisenä täytetään verkkokaupan perustiedot.
+Ensimmäisenä täytetään verkkokaupan perustiedot.  
 ![](woo2.png)
 
-Seuraavaksi voidaan valita jo pari eri maksutapaa. Mikäli valintoja ei tee tässä vaiheessa on lisäosat mahdollista asentaa myös myöhemmin. Saatavana on paljon myös muita lisäosia maksamiseen liittyen. Maksamiseen liittyvät lisäosat tarvitsevat luonnollisesti oman sopimuksen tai käyttäjätilin itse palveluntarjoajan kanssa.
+Seuraavaksi voidaan valita jo pari eri maksutapaa. Mikäli valintoja ei tee tässä vaiheessa on lisäosat mahdollista asentaa myös myöhemmin. Saatavana on paljon myös muita lisäosia maksamiseen liittyen. Maksamiseen liittyvät lisäosat tarvitsevat luonnollisesti oman sopimuksen tai käyttäjätilin itse palveluntarjoajan kanssa.  
 
 ![](wp4.png)
 
 
-Alkuvalintojen jälkeen voidaan vaikkapa aloittaa tuotteiden lisäys verkkokauppaan!
+Alkuvalintojen jälkeen voidaan vaikkapa aloittaa tuotteiden lisäys verkkokauppaan!  
 
 ![](wp7.png)
 
 # 5. Johtopäätökset
 
-WordPressin asentamiselle on olemassa "yksinkertaisempikin" tapa graafisia käyttöliittymiä käyttäen tai jopa ohjelmistoja, jotka asentavat WordPressin automaattisesti. Tyypillisesti hosting-yritykset tarjoavat automaattista WordPressin asennusta. Automaattisiin ohjelmistoihin en ole tutustunut, mutta verrattuna asennukseen graafisia käyttöliittymiä käyttäen, suoraan konsolilta asenuksessa on etuja erityisesti tietoturvan näkökulmasta. Toki GUI:llakin tietoturvan saa varmasti kuntoon, muttei ilman tiedostojen muokkausta siinäkään. 
+WordPressin asentamiselle on olemassa "yksinkertaisempikin" tapa graafisia käyttöliittymiä käyttäen tai jopa ohjelmistoja, jotka asentavat WordPressin automaattisesti. Tyypillisesti hosting-yritykset tarjoavat automaattista WordPressin asennusta. Automaattisiin ohjelmistoihin en ole tutustunut, mutta verrattuna asennukseen graafisia käyttöliittymiä käyttäen, suoraan konsolilta asenuksessa on etuja erityisesti tietoturvan näkökulmasta. Toki GUI:llakin tietoturvan saa varmasti kuntoon, muttei ilman tiedostojen muokkausta siinäkään.  
 
-Loppujen lopuksi WordPressin asennus omalle Ubuntu-serverille konsolilla ei ole kovin monimutkaista. Toisaalta asennuksen voi helposti tehdä hyvin turvattomasti, jonka jälkeen on enää tuurista kiinni murtautuuko joku sivustolle. Perustietoturva vaatii hieman viitseliäisyyttä ja lopullinen tietoturvan taso tietenkin kiinni WordPress -sivuston tärkeydestä ja siinä liikkuvan rahan määrästä. Hieman tärkeämpien sivustojen kohdalla lähtisin itse rakentamaan WordPress sivustoa CentOs server -käyttöjärjestelmälle.
+Loppujen lopuksi WordPressin asennus omalle Ubuntu-serverille konsolilla ei ole kovin monimutkaista. Toisaalta asennuksen voi helposti tehdä hyvin turvattomasti, jonka jälkeen on enää tuurista kiinni murtautuuko joku sivustolle. Perustietoturva vaatii hieman viitseliäisyyttä ja lopullinen tietoturvan taso tietenkin kiinni WordPress -sivuston tärkeydestä ja siinä liikkuvan rahan määrästä. Hieman tärkeämpien sivustojen kohdalla lähtisin itse rakentamaan WordPress sivustoa CentOs server -käyttöjärjestelmälle.  
 
 # 6. Lähteet
 
-[WordPressin asennus](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lamp-on-ubuntu-18-04)
+[WordPressin asennus](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lamp-on-ubuntu-18-04)  
 
-[LAMP Stack asennus](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-ubuntu-18-04)
+[LAMP Stack asennus](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-ubuntu-18-04)  
 
-[WordPress Security Keys](https://www.wpwhitesecurity.com/wordpress-security-keys/)
+[WordPress Security Keys](https://www.wpwhitesecurity.com/wordpress-security-keys/)  
 
-[WordPress, why and how Security Keys](https://www.wpbeginner.com/beginners-guide/what-why-and-hows-of-wordpress-security-keys/)
+[WordPress, why and how Security Keys](https://www.wpbeginner.com/beginners-guide/what-why-and-hows-of-wordpress-security-keys/)  
 
-[WordPress Permalinks](https://wordpress.org/support/article/using-permalinks/)
+[WordPress Permalinks](https://wordpress.org/support/article/using-permalinks/)  
 
-[WordPress with LAMP on Ubuntu](https://www.tecmint.com/install-wordpress-on-ubuntu-16-04-with-lamp/)
+[WordPress with LAMP on Ubuntu](https://www.tecmint.com/install-wordpress-on-ubuntu-16-04-with-lamp/)  
 
-[WordPress and WooCommerce with LAMP](https://websiteforstudents.com/install-wordpress-woocommerce-with-apache2-mariadb-and-php-7-2-on-ubuntu-16-04-17-10-18-04/)
+[WordPress and WooCommerce with LAMP](https://websiteforstudents.com/install-wordpress-woocommerce-with-apache2-mariadb-and-php-7-2-on-ubuntu-16-04-17-10-18-04/)  
 
 
 
