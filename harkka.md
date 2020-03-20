@@ -11,68 +11,66 @@ TTMS0800 Web-palvelun hallinta harjoitustyö
 
 
 # 1. Johdanto  
-WordPress on avoimen lähdekoodin julkaisualusta, jota käytetään erittäin laajasti myös verkkokauppojen alustana muun muassa WooCommerce lisäosan kanssa. Erään [lähteen](https://hostingtribunal.com/blog/wordpress-statistics/#gref) mukaan, WordPress toimii noin 35%:ssa internetsivustoja ja CMS (content mnagement system) ohjelmistoja hyödyntävistä sivuista jopa 60% on WordPressillä toteutettuja. Saman lähteen mukaan 28% kaikesta verkkokaupasta tehdään WooCommerce lisäosalla ja 281 uutta WooCommerce kauppaa avautuu joka päivä. Vaikka lukujen tarkkuutta voi olla vaikea todentaa, selvää on, että WordPress on erittäin merkittävä CMS alusta ja toisaalta WooCommerce erittäin merkittävä kauppapaikkasovellus. 
+WordPress on avoimen lähdekoodin julkaisualusta, jota käytetään erittäin laajasti myös verkkokauppojen alustana muun muassa WooCommerce lisäosan kanssa. Erään [lähteen](https://hostingtribunal.com/blog/wordpress-statistics/#gref) mukaan, WordPress toimii noin 35%:ssa internetsivustoja ja CMS (content mnagement system) ohjelmistoja hyödyntävistä sivuista jopa 60% on WordPressillä toteutettuja. Saman lähteen mukaan 28% kaikesta verkkokaupasta tehdään WooCommerce lisäosalla ja 281 uutta WooCommerce kauppaa avautuu joka päivä. Vaikka lukujen tarkkuutta voi olla vaikea todentaa, selvää on, että WordPress on erittäin merkittävä CMS alusta ja toisaalta WooCommerce erittäin merkittävä kauppapaikkasovellus.  
 
 Harjoitustyössä luodaan täysin toimiva WordPress CMS alusta WooCommerce -kauppapaikkalaajennoksella Ubuntu 18.04 server käyttöjärjestelmään. Harjoitustyö tehdään Digital Ocean droplettiin, joka toimii harjoitustyön ajan osoitteessa 134.122.85.70. Etäyhteyden ottamiseen työssä käytetään Putty SSH-etäohjelmaa ja SSH-avainparin luomiseen puttygen -ohjelmistoa. Molemmat ohjelmistot on saatavissa Windows käyttöjärjestelmään.  
 
 
 # 2. Esivalmistelut
 
-Luodaan aluksi uusi käyttäjä, jolle annetaan sudo oikeudet. 
->\$ sudo useradd -m -s /bin/bash *your_user*
->\$ usermod -aG sudo *your_user*
+Luodaan aluksi uusi käyttäjä, jolle annetaan sudo oikeudet.  
+>\$ sudo useradd -m -s /bin/bash *your_user*  
+>\$ usermod -aG sudo *your_user*  
 
-Lisäksi asetetaan uudelle käyttäjälle salasana, jonka jälkeen siirrytään käyttämään luotua käyttäjää. Tästä eteenpäin kaikki komennot tehdään luodulla käyttäjällä.
->\$ passwd *your_user*
->\$ su *your_user*
+Lisäksi asetetaan uudelle käyttäjälle salasana, jonka jälkeen siirrytään käyttämään luotua käyttäjää. Tästä eteenpäin kaikki komennot tehdään luodulla käyttäjällä.  
+>\$ passwd *your_user*  
+>\$ su *your_user*  
 
-Aivan aluksi päivitetään aptitude kirjasto ja järjestelmä. Tällöin käytämme asennuksissa varmasti viimeisimpiä ohjelmistoja.
+Aivan aluksi päivitetään aptitude kirjasto ja järjestelmä. Tällöin käytämme asennuksissa varmasti viimeisimpiä ohjelmistoja.  
 >\$ sudo apt update  
 >\$ sudo apt upgrade  
 
 ## 2.1. SSH-avaimen asettaminen 
 
-Myöhempää ylläpitoa ja tietoturvaa parantaaksemme, asennetaan serverille ssh-avain, jolla jatkossa salasanan sijaan tunnistaudumme serverille. Kytketään myös salasanalla kirjautuminen kokonaan pois päältä. 
+Myöhempää ylläpitoa ja tietoturvaa parantaaksemme, asennetaan serverille ssh-avain, jolla jatkossa salasanan sijaan tunnistaudumme serverille. Kytketään myös salasanalla kirjautuminen kokonaan pois päältä.  
 
 Aluksi luodaan rsa-avainpari esimerkiksi Windowsiin saatavilla olevalla puttygen -ohjelmalla (kuva alla), jonka jälkeen kopioidaan avainparin julkinen osa serverille. Yksityinen avain tallennetaan omalle koneelle. Tässä luomme avaimen juuri luodulle käyttäjälle.   
 
-![](ssh1.png)
+![](ssh1.png)  
 
-Ensiksi luodaan tarvittava kansio, jonne julkinen avain sijoitetaan. Tämän jälkeen luodaan tiedosto, jonne julkinen avain kopioidaan.
+Ensiksi luodaan tarvittava kansio, jonne julkinen avain sijoitetaan. Tämän jälkeen luodaan tiedosto, jonne julkinen avain kopioidaan.  
 
->\$ mkdir ~/.ssh
->\$ nano ~/.ssh/authorized_keys
+>\$ mkdir ~/.ssh  
+>\$ nano ~/.ssh/authorized_keys  
 
-Authorized_keys tiedostoon lisätään puttygen-ohjelmalla luotu julkinen avainpari **yhdelle riville**. Rivi alkaa sanoilla "ssh-rsa", jonka jälkeen tulee välilyönti. Muita välilyöntejä ei saa olla. Tallennetaan tiedosto.
+Authorized_keys tiedostoon lisätään puttygen-ohjelmalla luotu julkinen avainpari **yhdelle riville**. Rivi alkaa sanoilla "ssh-rsa", jonka jälkeen tulee välilyönti. Muita välilyöntejä ei saa olla. Tallennetaan tiedosto.  
 
-Lopuksi asetataan vielä oikeudet kuntoon ja käynnistetään ssh-palvelu uudelleen:
+Lopuksi asetataan vielä oikeudet kuntoon ja käynnistetään ssh-palvelu uudelleen:  
 
->\$ chmod 700 ~/.ssh
->\$ chmod 600 ~/.ssh/authorized_keys
->\$ sudo systemctl restart ssh.service
+>\$ chmod 700 ~/.ssh  
+>\$ chmod 600 ~/.ssh/authorized_keys  
+>\$ sudo systemctl restart ssh.service  
 
-Kun seuraavan kerran otetaan yhteyttä esimerkiksi Putty-ohjelmalla tulee avainparin yksityinen osa lisätä luotavan yhteyden konfiguraatiotietoihin. 
+Kun seuraavan kerran otetaan yhteyttä esimerkiksi Putty-ohjelmalla tulee avainparin yksityinen osa lisätä luotavan yhteyden konfiguraatiotietoihin.  
 
-![](ssh2.png)
+![](ssh2.png)  
 
-Tämän jälkeen luodun käyttäjän tunnuksella serverille kirjautuessa ei tarvita enää salasanaa.
+Tämän jälkeen luodun käyttäjän tunnuksella serverille kirjautuessa ei tarvita enää salasanaa.  
 
->\$ sudo nano /etc/ssh/sshd_config
+>\$ sudo nano /etc/ssh/sshd_config  
 
-Muokataan alla olevat rivit esitetyiksi sshd_confgi -tiedostosta. Muokkauksilla estetään root-käyttäjän kirjautuminen serverille ja estetään salasanalla kirjautuminen. **Huomaa, että ennen muutoksia on hyvä kuitenkin testata, että ssh-avaimella kirjautuminen onnistuu.** Muutoksen jälkeen avaimia ei serverille enää helposti saa. Tämä osio ei myöskään ole mitenkään pakollinen WordPressin toiminnan kannalta.
+Muokataan alla olevat rivit esitetyiksi sshd_confgi -tiedostosta. Muokkauksilla estetään root-käyttäjän kirjautuminen serverille ja estetään salasanalla kirjautuminen. **Huomaa, että ennen muutoksia on hyvä kuitenkin testata, että ssh-avaimella kirjautuminen onnistuu.** Muutoksen jälkeen avaimia ei serverille enää helposti saa. Tämä osio ei myöskään ole mitenkään pakollinen WordPressin toiminnan kannalta.  
 
->ChallengeResponseAuthentication no
-PermitRootLogin no
-PasswordAuthentication no
-UsePAM no
-
-
-
+>ChallengeResponseAuthentication no  
+PermitRootLogin no  
+PasswordAuthentication no  
+UsePAM no  
+  
 ## 2.1. Apache
->\$ sudo apt install apache2
+>\$ sudo apt install apache2  
 
-Apachen asennuksen jälkeen asetetaan UFW-työkalulla palomuuriin sopivat asetukset Apachea varten. UFW:ssä on valmiiksi joitain profiileita eri sovelluksia varten. Valmiit profiilit voi listata komennolla: 
->\$ sudo ufw app list
+Apachen asennuksen jälkeen asetetaan UFW-työkalulla palomuuriin sopivat asetukset Apachea varten. UFW:ssä on valmiiksi joitain profiileita eri sovelluksia varten. Valmiit profiilit voi listata komennolla:  
+>\$ sudo ufw app list  
 
 
 >*Available applications:  
@@ -87,68 +85,68 @@ Komennolla
 nähdään ufw:n valmiin profiilin tiedot. Tiedoista käy ilmi, että ufw:n palomuuriin sallitaan TCP-liikenne portteihin 80 ja 443. Portit ovat http ja ssh -protokollien käyttämät portit.  
 
 Lisätään palomuuriin profiili Apache Full.  
->\$ sudo ufw allow in "Apache Full"
+>\$ sudo ufw allow in "Apache Full"  
 
-SSH-yhteyttä varten lisätään palomuuriin sääntö sallia ssh-yhteys.
->\$ sudo ufw allow ssh
+SSH-yhteyttä varten lisätään palomuuriin sääntö sallia ssh-yhteys.  
+>\$ sudo ufw allow ssh  
 
-SSH-yhteys voidaan sallia myös tietystä ip-osoitteesta. Tällöin tulee kuitenkin huolehtia siitä, ettei oma ip-osoite muutu.
+SSH-yhteys voidaan sallia myös tietystä ip-osoitteesta. Tällöin tulee kuitenkin huolehtia siitä, ettei oma ip-osoite muutu.  
 
->\$ sudo ufw allow ssh from *oma_ip-osoitteesi*
+>\$ sudo ufw allow ssh from *oma_ip-osoitteesi*  
 
-Lopuksi asetetaan palomuuri toimintaan.
+Lopuksi asetetaan palomuuri toimintaan.  
 
->\$ sudo ufw enable
+>\$ sudo ufw enable  
 
-Seuraavaksi käynnistetään apache2 palvelu uudelleen ja tarkistetaan, että palvelu on käynnissä.
->\$ systemctl restart apache2
->\$ systemctl status apache2
+Seuraavaksi käynnistetään apache2 palvelu uudelleen ja tarkistetaan, että palvelu on käynnissä.  
+>\$ systemctl restart apache2  
+>\$ systemctl status apache2  
 
 ![](apache1.PNG)
-Palvelun tilan tulisi olla "active (running)".
+Palvelun tilan tulisi olla "active (running)".  
 
 ## 2.2. MySQL
 
->\$ sudo apt install mysql-server
+>\$ sudo apt install mysql-server  
 
-Seuraavaksi ajetaan MySQL:ään esiasennettu scripti, jolla asetetaan tiettyjä turvaominaisuuksia tietokannalle. Ominaisuuksissa määritellään muun muassa 
-- salasanan validointi, 
-- anonymous käyttäjän poisto
-- test database:n poisto
-- root käyttäjän etäyhteyden esto
+Seuraavaksi ajetaan MySQL:ään esiasennettu scripti, jolla asetetaan tiettyjä turvaominaisuuksia tietokannalle. Ominaisuuksissa määritellään muun muassa  
+- salasanan validointi,  
+- anonymous käyttäjän poisto  
+- test database:n poisto  
+- root käyttäjän etäyhteyden esto  
   
->\$ sudo mysql_secure_installation
+>\$ sudo mysql_secure_installation  
 
-Edellä mainittu tietoturvaominaisuuksien määrittely ei ole pakollinen, mutta lisää tietokannan tietoturvaa. 
+Edellä mainittu tietoturvaominaisuuksien määrittely ei ole pakollinen, mutta lisää tietokannan tietoturvaa.  
 
-Seuraavaksi asetetaan root käyttäjälle salasana MySQL:ään. Aloitetaan siirtymällä MySQL:ään. 
+Seuraavaksi asetetaan root käyttäjälle salasana MySQL:ään. Aloitetaan siirtymällä MySQL:ään.  
 
->\$ sudo mysql
+>\$ sudo mysql  
 
-Alla olevalla komennolla nähdään, mikäli root käyttäjällä on jo salasana. Salasana ei näy selväkielisessä muodossa vaan merkkijonona kohdassa "authentication_string". Mikäli kohta on root-käyttäjän kohdalla tyhjä, salasanaa ei ole asetettu.
+Alla olevalla komennolla nähdään, mikäli root käyttäjällä on jo salasana. Salasana ei näy selväkielisessä muodossa vaan merkkijonona kohdassa "authentication_string". Mikäli kohta on root-käyttäjän kohdalla tyhjä, salasanaa ei ole asetettu.  
 
->mysql> SELECT user,authentication_string,plugin,host FROM mysql.user;
+>mysql> SELECT user,authentication_string,plugin,host FROM mysql.user;  
 
-Asetetaan salasana ja asetetaan muutokset voimaan komennoilla:
+Asetetaan salasana ja asetetaan muutokset voimaan komennoilla:  
 
->mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '  *your password*  ';
+>mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '  *your password*  ';  
 
->mysql> FLUSH PRIVILEGES;
+>mysql> FLUSH PRIVILEGES;  
 
-Halutessasi voit vielä tarkistaa, että salasana on asetettu.
+Halutessasi voit vielä tarkistaa, että salasana on asetettu.  
 ![](mysql1.PNG)
 
-WordPress tarvitsee toimiakseen oman tietokannan. Tietokannan nimellä ei ole merkitystä, mutta käytämme tässä tietokannalla nimeä "wordpress". Luodaan tietokanta Wordpressin käyttöön komennolla:
+WordPress tarvitsee toimiakseen oman tietokannan. Tietokannan nimellä ei ole merkitystä, mutta käytämme tässä tietokannalla nimeä "wordpress". Luodaan tietokanta Wordpressin käyttöön komennolla:  
 
->mysql> CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+>mysql> CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;  
 
-Tietokannan luonnin jälkeen luodaan erillinen MySQL-käyttäjä, jolla on oikeudet käyttää luotua tietokantaa. Jälleen käyttäjänimi voi olla mikä tahansa, mutta käytämme tässä nimeä "wordpressuser". Komennon jälkeen asetetaan muutokset voimaan ja poistutaan mysql:stä.
+Tietokannan luonnin jälkeen luodaan erillinen MySQL-käyttäjä, jolla on oikeudet käyttää luotua tietokantaa. Jälleen käyttäjänimi voi olla mikä tahansa, mutta käytämme tässä nimeä "wordpressuser". Komennon jälkeen asetetaan muutokset voimaan ja poistutaan mysql:stä.  
 
->mysql> GRANT ALL ON wordpress.* TO 'wordpressuser'@'localhost' IDENTIFIED BY '  *your password*   ';
+>mysql> GRANT ALL ON wordpress.* TO 'wordpressuser'@'localhost' IDENTIFIED BY '  *your password*   ';  
 
->mysql> FLUSH PRIVILEGES;
+>mysql> FLUSH PRIVILEGES;  
 
->mysql> EXIT;
+>mysql> EXIT;  
 
 ## 2.3. PHP
 
