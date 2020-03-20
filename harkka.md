@@ -6,8 +6,25 @@ Sami Luoma-aho, N4939
 19.3.2020  
 TTMS0800 Web-palvelun hallinta harjoitustyö  
 
+  
+**SISÄLLYS**
+[1. Johdanto](#1-johdanto)
+[2. Esivalmistelut](#2-esivalmistelut)
+- [2.1. SSH-avaimen asettaminen](#21-ssh-avaimen-asettaminen)
+- [2.2. Apache](#22-apache)
+- [2.3. MySQL](#23-mysql)
+- [2.4. PHP](#24-php)
+- [2.5. Apachen lisäasetuksia](#25-apachen-lisäasetuksia)
 
-<!-- TOC -->autoauto- [1. Johdanto](#1-johdanto)auto- [2. Esivalmistelut](#2-esivalmistelut)auto    - [2.1. Apache](#21-apache)auto    - [2.2. MySQL](#22-mysql)auto    - [2.3. PHP](#23-php)auto    - [2.4. Apachen lisäasetuksia](#24-apachen-lisäasetuksia)auto- [3. WordPress CMS asennus](#3-wordpress-cms-asennus)auto    - [3.1. Käyttöoikeuksien säätäminen](#31-käyttöoikeuksien-säätäminen)auto    - [3.2. wp-config.php](#32-wp-configphp)auto    - [3.3. WordPress asennuksen viimeistely](#33-wordpress-asennuksen-viimeistely)auto- [4. WooCommerce asennnus](#4-woocommerce-asennnus)auto- [5. Johtopäätökset](#5-johtopäätökset)auto- [6. Lähteet](#6-lähteet)autoauto<!-- /TOC -->
+[3. WordPress CMS asennus](#3-wordpress-cms-asennus)
+- [3.1. Käyttöoikeuksien säätäminen](#31-käyttöoikeuksien-säätäminen)
+- [3.2. wp-config.php](#32-wp-configphp)
+- [3.3. WordPress asennuksen viimeistely](#33-wordpress-asennuksen-viimeistely)
+
+[4. WooCommerce asennnus](#4-woocommerce-asennnus)
+[5. Johtopäätökset](#5-johtopäätökset)
+[6. Lähteet](#6-lähteet)
+
 
 
 # 1. Johdanto  
@@ -66,7 +83,7 @@ PermitRootLogin no
 PasswordAuthentication no  
 UsePAM no  
   
-## 2.1. Apache
+## 2.2. Apache
 >\$ sudo apt install apache2  
 
 Apachen asennuksen jälkeen asetetaan UFW-työkalulla palomuuriin sopivat asetukset Apachea varten. UFW:ssä on valmiiksi joitain profiileita eri sovelluksia varten. Valmiit profiilit voi listata komennolla:  
@@ -105,7 +122,7 @@ Seuraavaksi käynnistetään apache2 palvelu uudelleen ja tarkistetaan, että pa
 ![](apache1.PNG)
 Palvelun tilan tulisi olla "active (running)".  
 
-## 2.2. MySQL
+## 2.3. MySQL
 
 >\$ sudo apt install mysql-server  
 
@@ -148,7 +165,7 @@ Tietokannan luonnin jälkeen luodaan erillinen MySQL-käyttäjä, jolla on oikeu
 
 >mysql> EXIT;  
 
-## 2.3. PHP
+## 2.4. PHP
 
 WordPress tarvitsee toimiakseen myös PHP:n ja joitain PHP laajennuksia. Asennetaan aluksi php sekä kaksi "apupakettia", jotta php voi keskutella apachen ja mysql:n kanssa.  
 
@@ -175,7 +192,7 @@ Mikäli PHP on asentunut oikein, nähdään alla oleva kuva selaimella osoittees
 
 
 
-## 2.4. Apachen lisäasetuksia
+## 2.5. Apachen lisäasetuksia
 WordPress ja useat sen lisäosat käyttävät .htaccess tiedostoja kansiokohtaisiin muokkauksiin. Tämän vuoksi .htaccess tiedostojen käyttö (.htaccess override and rewrite) tulee sallia.  
 
 Seuraavassa teemme muokkaukset sillä oletuksella, että Wordpressin juurikansio on /var/www/wordpress/.  
@@ -327,14 +344,3 @@ Loppujen lopuksi WordPressin asennus omalle Ubuntu-serverille konsolilla ei ole 
 
 
 
-
-
-
-
-Harjoitustyön nimi, tekijöiden nimet, päivämäärä ja tieto siitä, että kyseessä on Verkkopalvelut -opintojakson harjoitustyö.
-Tehtävän kuvaus / Johdanto. Esim. "Nykyiset Internetin sovellusprotollat ovat hyvin turvattomia... varsinkin e- kaupankäynnissä on välttämätöntä salata http-liikennettä... https-"protokolla" on ratkaisu; Se... ... Tässä työssä asennetaan Linux alustalle SSL-kykyinen Apache Web-palvelin"
-Varsinainen aiheen käsittely. Esim. ohjelmistot käyttöesimerkkeineen
-mahdollisesti asennusohjeita (Mistä URLista imuroitiin ja mitä jne..)
-mahdollisesti käyttöohjeita ja käyttöesimerkkejä mahdollisine kuvaruutukauppauksineen
-Johtopäätökset: "Ohjelma sopii hyvin... Vaikea asennus on Linuxiin tottumattomalle..."
-Lähteet
