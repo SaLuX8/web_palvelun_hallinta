@@ -89,14 +89,23 @@ nähdään ufw:n valmiin profiilin tiedot. Tiedoista käy ilmi, että ufw:n palo
 Lisätään palomuuriin profiili Apache Full.  
 >\$ sudo ufw allow in "Apache Full"
 
-Seuraavaksi käynnistetään apache2 palvelu uudelleen komennolla:
->\$ systemctl restart apache2
+SSH-yhteyttä varten lisätään palomuuriin sääntö sallia ssh-yhteys.
+>\$ sudo ufw allow ssh
 
-Ja tarkistetaan, että palvelu on käynnissä komennolla
+SSH-yhteys voidaan sallia myös tietystä ip-osoitteesta. Tällöin tulee kuitenkin huolehtia siitä, ettei oma ip-osoite muutu.
+
+>\$ sudo ufw allow ssh from *oma_ip-osoitteesi*
+
+Lopuksi asetetaan palomuuri toimintaan.
+
+>\$ sudo ufw enable
+
+Seuraavaksi käynnistetään apache2 palvelu uudelleen ja tarkistetaan, että palvelu on käynnissä.
+>\$ systemctl restart apache2
 >\$ systemctl status apache2
 
 ![](apache1.PNG)
-Palvelun tilan tulisi olla "active (running)"
+Palvelun tilan tulisi olla "active (running)".
 
 ## 2.2. MySQL
 
