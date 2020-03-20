@@ -28,9 +28,9 @@ TTMS0800 Web-palvelun hallinta harjoitustyö
 
 
 # 1. Johdanto  
-WordPress on avoimen lähdekoodin julkaisualusta, jota käytetään erittäin laajasti myös verkkokauppojen alustana muun muassa WooCommerce lisäosan kanssa. Erään [lähteen](https://hostingtribunal.com/blog/wordpress-statistics/#gref) mukaan, WordPress toimii noin 35%:ssa internetsivustoja ja CMS (content mnagement system) ohjelmistoja hyödyntävistä sivuista jopa 60% on WordPressillä toteutettuja. Saman lähteen mukaan 28% kaikesta verkkokaupasta tehdään WooCommerce lisäosalla ja 281 uutta WooCommerce kauppaa avautuu joka päivä. Vaikka lukujen tarkkuutta voi olla vaikea todentaa, selvää on, että WordPress on erittäin merkittävä CMS alusta ja toisaalta WooCommerce erittäin merkittävä kauppapaikkasovellus.  
+WordPress on avoimen lähdekoodin julkaisualusta, jota käytetään erittäin laajasti myös verkkokauppojen alustana muun muassa WooCommerce lisäosan kanssa. [WordPress toimii noin 35%:ssa internetsivustoja](https://hostingtribunal.com/blog/wordpress-statistics/#gref) ja WordPressin osuus kaikista CMS (content mnagement system) ohjelmistoja käyttävistä sivuista on jopa 60%. Samalla jopa 28% kaikesta verkkokaupasta tehdään WooCommerce lisäosalla ja 281 uutta WooCommerce kauppaa avautuu joka päivä. Vaikka lukuja voi olla vaikea varmistaa, selvää on, että WordPress on erittäin merkittävä CMS alusta ja toisaalta WooCommerce erittäin merkittävä kauppapaikkasovellus. Tämän tosiseikan vuoksi valitsin aiheeni.  
 
-Harjoitustyössä luodaan täysin toimiva WordPress CMS alusta WooCommerce -kauppapaikkalaajennoksella Ubuntu 18.04 server käyttöjärjestelmään. Harjoitustyö tehdään Digital Ocean droplettiin, joka toimii harjoitustyön ajan osoitteessa 134.122.85.70. Etäyhteyden ottamiseen työssä käytetään Putty SSH-etäohjelmaa ja SSH-avainparin luomiseen puttygen -ohjelmistoa. Molemmat ohjelmistot on saatavissa Windows käyttöjärjestelmään.  
+Harjoitustyössä luodaan täysin toimiva WordPress CMS alusta WooCommerce -kauppapaikkalaajennoksella Ubuntu 18.04 server käyttöjärjestelmään. Harjoitustyö tehdään Digital Ocean droplettiin, joka toimii harjoitustyön ajan osoitteessa 134.122.85.70. Etäyhteyden ottamiseen työssä käytetään Putty SSH-etäohjelmaa ja SSH-avainparin luomiseen puttygen -ohjelmistoa. Molemmat ohjelmistot on saatavissa Windows käyttöjärjestelmään. WooCommercen tai muiden WordPressin lisäosien asetusten tarkempaan säätämiseen ei tässä harjoitustyössä paneuduta tarkemmin.     
 
 
 # 2. Esivalmistelut
@@ -342,5 +342,6 @@ Loppujen lopuksi WordPressin asennus omalle Ubuntu-serverille konsolilla ei ole 
 
 [WordPress and WooCommerce with LAMP](https://websiteforstudents.com/install-wordpress-woocommerce-with-apache2-mariadb-and-php-7-2-on-ubuntu-16-04-17-10-18-04/)  
 
+[WordPressin turva-asetuksia](https://wordpress.org/support/category/security/)  
 
 
