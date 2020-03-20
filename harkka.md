@@ -306,7 +306,9 @@ Alkuvalintojen jälkeen voidaan vaikkapa aloittaa tuotteiden lisäys verkkokaupp
 
 # 5. Johtopäätökset
 
+WordPressin asentamiselle on olemassa "yksinkertaisempikin" tapa graafisia käyttöliittymiä käyttäen tai jopa ohjelmistoja, jotka asentavat WordPressin automaattisesti. Tyypillisesti hosting-yritykset tarjoavat automaattista WordPressin asennusta. Automaattisiin ohjelmistoihin en ole tutustunut, mutta verrattuna asennukseen graafisia käyttöliittymiä käyttäen, suoraan konsolilta asenuksessa on etuja erityisesti tietoturvan näkökulmasta. Toki GUI:llakin tietoturvan saa varmasti kuntoon, muttei ilman tiedostojen muokkausta siinäkään. 
 
+Loppujen lopuksi WordPressin asennus omalle Ubuntu-serverille konsolilla ei ole kovin monimutkaista. Toisaalta asennuksen voi helposti tehdä hyvin turvattomasti, jonka jälkeen on enää tuurista kiinni murtautuuko joku sivustolle. Perustietoturva vaatii hieman viitseliäisyyttä ja lopullinen tietoturvan taso tietenkin kiinni WordPress -sivuston tärkeydestä ja siinä liikkuvan rahan määrästä. Hieman tärkeämpien sivustojen kohdalla lähtisin itse rakentamaan WordPress sivustoa CentOs server -käyttöjärjestelmälle.
 
 # 6. Lähteet
 
