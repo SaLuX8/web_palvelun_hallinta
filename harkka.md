@@ -8,22 +8,22 @@ TTMS0800 Web-palvelun hallinta harjoitustyö
 
   
 **SISÄLLYS**
-[1. Johdanto](#1-johdanto)
-[2. Esivalmistelut](#2-esivalmistelut)
-- [2.1. SSH-avaimen asettaminen](#21-ssh-avaimen-asettaminen)
-- [2.2. Apache](#22-apache)
-- [2.3. MySQL](#23-mysql)
-- [2.4. PHP](#24-php)
-- [2.5. Apachen lisäasetuksia](#25-apachen-lisäasetuksia)
+[1. Johdanto](#1-johdanto)  
+[2. Esivalmistelut](#2-esivalmistelut)  
+- [2.1. SSH-avaimen asettaminen](#21-ssh-avaimen-asettaminen)  
+- [2.2. Apache](#22-apache)  
+- [2.3. MySQL](#23-mysql)  
+- [2.4. PHP](#24-php)  
+- [2.5. Apachen lisäasetuksia](#25-apachen-lisäasetuksia)  
 
-[3. WordPress CMS asennus](#3-wordpress-cms-asennus)
-- [3.1. Käyttöoikeuksien säätäminen](#31-käyttöoikeuksien-säätäminen)
-- [3.2. wp-config.php](#32-wp-configphp)
-- [3.3. WordPress asennuksen viimeistely](#33-wordpress-asennuksen-viimeistely)
+[3. WordPress CMS asennus](#3-wordpress-cms-asennus)  
+- [3.1. Käyttöoikeuksien säätäminen](#31-käyttöoikeuksien-säätäminen)  
+- [3.2. wp-config.php](#32-wp-configphp)  
+- [3.3. WordPress asennuksen viimeistely](#33-wordpress-asennuksen-viimeistely)  
 
-[4. WooCommerce asennnus](#4-woocommerce-asennnus)
-[5. Johtopäätökset](#5-johtopäätökset)
-[6. Lähteet](#6-lähteet)
+[4. WooCommerce asennnus](#4-woocommerce-asennnus)  
+[5. Johtopäätökset](#5-johtopäätökset)  
+[6. Lähteet](#6-lähteet)  
 
 
 
