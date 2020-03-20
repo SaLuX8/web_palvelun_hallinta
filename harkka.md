@@ -51,11 +51,13 @@ Aivan aluksi päivitetään aptitude kirjasto ja järjestelmä. Tällöin käyt�
 
 Myöhempää ylläpitoa ja tietoturvaa parantaaksemme, asennetaan serverille ssh-avain, jolla jatkossa salasanan sijaan tunnistaudumme serverille. Kytketään myös salasanalla kirjautuminen kokonaan pois päältä.  
 
-Aluksi luodaan rsa-avainpari esimerkiksi Windowsiin saatavilla olevalla puttygen -ohjelmalla (kuva alla), jonka jälkeen kopioidaan avainparin julkinen osa serverille. Yksityinen avain tallennetaan omalle koneelle. Tässä luomme avaimen juuri luodulle käyttäjälle.   
+Linux-serverille on mahdollista kirjautua käyttäen asymmetristä avainta. Periaatteena on, että luodaan avainpari, joista toinen on julkinen ja toinen yksityinen. Julkinen avain voi olla kenen tahansa nähtävillä ja ainoastaan yksityisellä avaimella voi purkaa julkisen avaimen. 
+
+Ensimmäiseksi siis luodaan rsa-avainpari. Tämän voi tehdä esimerkiksi Windowsiin saatavilla olevalla puttygen -ohjelmalla (kuva alla). Luonnin jälkeen avainparin julkinen osa kopioidaan serverille. Tähän voi käyttää jotain tiedonsiirto-ohjelmaa tai avaimen merkkisarjan voi siirtää leikepöydän kautta etäyhteyden kautta (Putty). Yksityinen avain tallennetaan oman koneen levylle myöhempää tarvetta varten.    
 
 ![](ssh1.png)  
 
-Ensiksi luodaan tarvittava kansio, jonne julkinen avain sijoitetaan. Tämän jälkeen luodaan tiedosto, jonne julkinen avain kopioidaan.  
+Ensiksi luodaan tarvittava kansio. Kansion tulee olla nimeltään ".ssh". Koska tässä luodaan ainoastaan yhdelle käyttäjälle mahdollisuus kirjautua ssh-avaimella serverille, luodaan ".ssh" kansio kyseisen käyttäjän kotihakemistoon. Tämän jälkeen luodaan .ssh-hakemistoon tiedosto, jonne julkinen avain kopioidaan.  
 
 >\$ mkdir ~/.ssh  
 >\$ nano ~/.ssh/authorized_keys  
