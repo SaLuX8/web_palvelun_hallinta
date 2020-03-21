@@ -5,7 +5,7 @@ Asennus Ubuntu 18.04 käyttöjärjestelmään
 Sami Luoma-aho, N4939  
 19.3.2020  
 TTMS0800 Web-palvelun hallinta harjoitustyö  
-[Harjoitustehtävät](harkat.txt)
+[Kurssin harjoitustehtävät](harkat.txt)
   
 **SISÄLLYS**  
 [1. Johdanto](#1-johdanto)  
