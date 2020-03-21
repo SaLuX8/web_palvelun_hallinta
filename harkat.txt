@@ -1,0 +1,948 @@
+JAMK / Web-palvelun haalinta [TTMS0800] / K2020 : Harjoitusdokumentaatio
+20.3.2020
+Tekijä: Luoma-aho Sami, N4939
+
+Tehtyjä harjoitustehtäviä yhteensä:   80 kpl
+Tarjolla olleita harjoitustehtäviä:   82 kpl
+80/82 => 98%
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+######################
+H1T1
+- Asennettiin tunnilla järjestelmä levykuvasta (.vdi) tehtävänannon mukaan.
+Ei käytetty ISO-levykuvaa
+- käyttäjätunnus testi / root66
+- VirtualBoxiin
+
+file://ghost/virtuaalikoneet/ara/
+
+Muista:
+- Bridged adapter
+- Ytimiä voisi lisätä kahteen
+- virtuaalimuistia -> 64
+
+######################
+H1T2
+- Testattu, toimii
+
+######################
+H1T3
+- Käytiin tarkistamassa kohde. VDI-levykuvassa asetukset oli tehty jo valmiiksi.
+
+######################
+H1T4
+- Päivitykset menivät läpi ohjeen mukaan.
+- sudo apt dist-upgrade
+
+######################
+H1T5
+- On labranetin IP-avaruudessa (192.168.43.106), eli on toiminnassa.
+
+######################
+H1T6
+- netstat -an | grep LISTEN | more
+-> 22-portti näkyy Listen tilassa
+
+######################
+H1T7
+- Näyttää onnistuvan hyvin naapurilta minun koneelle ja omalta koneelta naapurin koneelle. 
+
+######################
+H1T8
+- toimii sekä koululla, että kotona. Kotona IP-on 192.168.2.224.
+
+######################
+H1T9
+- Kotona testattu WinSCP:llä, ei ongelmia.
+
+######################
+H1T10
+- Onnistui. Komentokehotteeseen tulostuu nyt työskentelykansio (pdw) käyttäjän nimen perään. (esim: "<sami> /home/sami $")
+
+######################
+H1T11
+- kesti hetken, mutta onnistui sekä koululla että kotona
+
+######################
+H1T12
+- Tutustuttu.
+
+######################
+H1T13
+- Asennetttu. Otettu käyttöön yhteinen leikepöytä ja drag and drop toiminto. Toimii tekstin osalta molempii
+n suuntiin, mutta tiedostojen osalta ei ainakaan heti näyttänyt toimivan.
+
+######################
+H1T14
+- komennolla "gksudo nautilus" onnistui. Ensin täytyi luoda tiedosto "/root/.config/nautilus". (sudo touch /root/.config/nautilus) Testattu.
+
+######################
+H2T1
+- asennettu sudo apt install chromium browser. Sekä koululla, että kotona.
+
+######################
+H2T2
+- sudo apt install apache2
+- toimivuus testattu sekä kotona, että koululla. Toimii.
+
+######################
+H2T3
+- Luotiin kansio /var/www/html/omat-sivut
+- vaihdettiin kansion omistajaksi käyttäjä testi komennolla: sudo chown testi.testi omat-sivut/
+- tallennettiin chromium browserilla netisto.fi sivuilta etusivu luotuun kansioon.
+- muokataan pari riviä geditillä.
+- toimii sekä kotona, että koululla
+
+######################
+H2T4
+- oikeuksia ei tarvitse muuttaa. Sivut sijaitsevat ip-osoitteessa 192.168.2.224 ja pystyn katsomaan sivuja osoitteesta 192.168.2.36
+- index.html tiedostolla on oikeudet 644 ja omat-sivut kansiolla 755. 
+- netistä kopioidulla sivulla on oikeudet 664
+
+######################
+H2T5
+- sudo apt install aptitude. Asennettu.
+- kaikki saatavilla olevat paketit saa komennoilla "apt-cache pkgnames" (59272) ja "apt list" 
+- kaikki asennetut paketit saa komennoilla "aptitude search '~i!~M'" (1652) ja "aptitude search -F '%p' '~i'" (1759) sekä "apt list --installed" (1760)
+- kaikkien komentojen perään " | wc -l", jotta saadaan rivit laskettua.
+
+######################
+H2T6
+- lisättiin käyttäjät dumari, timol, user2, simo
+- lisättiin ryhmät juomarit ja tuomarit
+
+######################
+H2T7
+- sudo useradd -s /bin/bash -m testiX (tai sudo useradd -s /bin/bash -m -p <salasana> testiX)
+- passwd testiX
+- luotu...
+
+######################
+H2T8
+- Luodaan ryhmä "groupadd testers"
+- lisätään primääriryhmäksi "usermod -g testers testiX"
+- testattiin testi3:lla ja tiedoston omistajaksi tuli testi3 ja omistajaryhmäksi testers
+
+######################
+H2T9
+- luodaan uusi kansio "sudo mkdir /etc/skel/project/"
+- testataan luodulla käyttäjällä luser1. Onnistui. Luser1:n kotihakemistossa on kansio project.
+
+######################
+H2T10
+- luodaan juomamatsku kansio "sudo mkdir juomamatsku"
+- asetetaan omistajaksi simo: "sudo chown simo.juomarit juomamatsku/"
+- asetetaan sgid oikeus ryhmälle juomarit: "sudo chmod g+s juomamatsku/" --> ryhmän jäsenten luodessa
+ tiedostoja tiedostojen omistajaksi tulee automaattisesti juomarit
+- asetetaan kirjoitusoikeus juomarit ryhmälle kansioon: "sudo chmod g+w juomamatsku/"
+
+######################
+H2T11
+- ajetaan joh the ripper perusasetuksilla:
+	sudo unshadow /etc/passwd /etc/shadow > crack.password.db
+	john --users=1003 crack.password.db	
+- Aikaa kulunut yli puoli tuntia, eikä root66-salasana ole löytynyt. Keskeytetään.
+- ladataan Daniel Miessleriltä 10 miljoonan salasanan lista ja käytetään johnissa sitä:
+	john --users=1003 --wordlist=/home/sami/10Mpwd.txt crack.password.db
+- onnistui. Aikaa meni noin 5 minuuttia.
+
+######################
+H2T12
+- ladataan versio 2.4.41 apachelta wget http://www.apache.org/dist/httpd/httpd-2.4.41.tar.gz
+- puretaan paketti sudo tar -xzvf /tmp/httpd.tar.gz
+- mennään luotuun kansioon ja ajetaan ./configure ,mutta saadaan Configure virheilmoitus "ARP not found"
+	- en lähtenyt selvittämään tässä vaiheessa, mikä oli vialla. Aiemmin on onnistunut vastaava, tosin eri virtuaalikoneella.
+- seuraavaksi olisi pitänyt kääntää ohjelma "sudo make" ja asentaa "sudo make install". 
+- sitten tiedoston /usr/local/apache2/conf/httpd.conf rivi listen 80 olisi pitänyt muuttaa muotoon listen 8080, jolloin jo asennettu apache ei kuuntele samaa porttia.
+-> testi localhost:8080/ 
+
+######################
+H3T1
+- systemctl status cups.service ---> active running
+- ps aux | grep cupsd
+- On toiminnassa
+
+######################
+H3T2
+- sudo apt install vsftpd
+- systemctl | grep vsftpd  --> loaded active running -> on toiminnassa
+esim. sudo fuser -v -n tcp 21 --> näkee, että vsftpd käyttää porttia 21'
+- netstat -an | grep :21 --> näkee että on kuuntelussa (listen)
+- netstat -l näkee kaikki kuunnellut portit.
+- winscp:llä yhteys porttiin 21, ip 192.168.43.106. Tiedostojen siirto ubuntulta windowsiin toimii.
+
+######################
+H3T3
+- sudo nano /etc/vsftpd.conf 
+- uncomment: write_enable=YES
+- muut olivat jo kohdallaan: listen_ipv6=YES, anonymous_enable=NO, local_enable=YES, listen=NO
+- sudo systemctl restart vsftpd.service
+- sudo systemctl status vsftpd.service
+- testataan luser1 käyttäjällä winscp:ssä --> toimii
+
+######################
+H3T4
+- sallitaan vain kopiointi palvelimelta, ei sinne kirjoittamista
+- anonymous_enable=YES
+- anon_root=/srv/ftp/pub/
+- sudo systemctl restart vsftpd.service
+--> onnistui winscp:lla (anonymous), selaimella, Filezilla:lla,
+
+######################
+H3T5
+- sudo ufw enable
+- sudo ufw deny from 192.168.2.105 to any port 22
+- sudo ufw deny from 192.168.2.109 to any port 22
+- sudo ufw status numbered
+- nmapilla portteja ei mielestäni pitäisi näkyä ufw päälle laittamisen jälkeen, mutta ne näkyivät. Tosin ssh-yhteyttä ei saanut ennen 
+kuin sallin oman koneeni IP:n porttiin 22.
+
+######################
+H3T6
+- asetetaan sääntö: sudo ufw allow from 192.168.2.36 to any port 22 ja sen jälkeen
+- sudo ufw deny 22
+- Tarkistetaan : sudo ufw status numbered
+--> allow from 192.168.2.36 täytyy olla ylempänä (=tärkeämpi) kuin liikenteen 22 porttiin kieltävä sääntö
+
+######################
+H3T7
+- sudo apt install telnetd
+- telnet kuuntelee porttia 23
+- netstat -an | grep :23  --> Kuunnellaan!
+- systemctl status inetd --> active (running)!
+Testausta varten otetaan ufw palomuuri pois.
+- sudo ufw disable
+- testataan toiselta virtuaalikoneelta (CentOS, johon täytyy asentaa telnet...). Mutta toimii kyllä. Turvallisuudesta en menisi takuuseen. 
+
+######################
+H3T8
+- yhteyden ollessa käynnissä ps aux:illa näkyy telnetd:n käynnistämä prosessi, muutoin ei näy mitään. Tämä kaiketi
+sen vuoksi, että toisesta koneesta on avattu prosessi tälle koneelle. Telnetd ei siis ole käynnissä koko aikaa vaan vain yhteyden ollessa
+käytössä. Inetd-prosessi kyllä näyttää olevan toiminnassa (joka siis avaa telnetd:n).
+
+######################
+H3T9
+- nano /home/sami/loki.sh
+- laitetaan ohjeen mukainen skripti sisälle, oikeilla poluilla.
+...
+while true
+do
+  sleep 5
+  echo "-------------------------------------------------" >> /home/sami/loki.dat
+  date >> /home/sami/loki.dat
+  echo "-------------------------------------------------" >> /home/sami/loki.dat
+  w >>  /home/sami/loki.dat
+  echo "" >> /home/sami/loki.dat
+  echo "" >> /home/sami/loki.dat
+done
+...
+- testataan: /home/sami/loki.sh &
+- more loki.dat --> toimii
+- killall loki.sh
+
+Luodaan .service tiedosto oikeilla poluilla
+- sudo nano /etc/systemd/system/loki.service
+...
+[Unit]
+Description=Loki Service
+After=network.target
+
+[Service]
+Type=simple
+User=sami
+WorkingDirectory=/home/sami
+ExecStart=/home/sami/loki.sh
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+...
+- sudo systemctl start loki.service 
+- sudo systemctl enable loki.service
+restart
+----> Toimii
+
+######################
+H3T10
+Tehtiin oma loop.sh tiedosto:
+...
+i=1
+while true
+do
+  i=i+1
+done
+...
+
+Asetetaan NICE -2 prosessi:
+- sudo nice --2 /home/sami/loop.sh &
+Asetetaan NICE 5 prosessi:
+- sudo nice -5 /home/sami/loop.sh &^C
+
+Tutkitaan TOP komennolla:
+- prosessoriaikaa menee yhteensä noin 70%, kaikki 8kpl loop.sh prosessit ovat kärjessä!
+
+- sudo killall loop.sh
+
+######################
+H4T1
+luodaan /var/www/html/solo -kansio
+annetaan täydet oikeudet kansioon: sudo chmod 777 solo/
+kopioidaan nordea.fi sivuilta sivusto edelliseen kansioon nimellä index.html
+tarkistetaan windows koneelta -> toimii
+
+######################
+H4T2
+asetetaan /etc/hosts -tiedostoon rivi: 192.168.43.106  solo1.nordea.fi
+tyhjätään välimuisti ja kokeillaan ---> toimii linux -koneella. 
+
+######################
+H4T3
+- ajetaan komento: sudo a2enmod userdir   (otetaan tavllisten käyttäjien julkiset kansiot käyttöön (public_html)) 
+- tiedostossa /etc/apache2/mods-enabled/userdir.conf nähdään asetukset käyttäjän kansiolle (indexes pois niin listaaminen ei ole sallittua)
+- luodaan kotikansioon kansio public_html ja sinne yksi tiedosto.
+- nyt kansio on näkyvissä osoitteessa 192.168.43.106/~testi/
+
+######################
+H4T4
+- sudo a2dismod mpm_event
+- sudo a2enmod mpm_prefork
+- sudo systemctl restart apache2.service
+- sudo nano /etc/apache2/mods-enabled/mpm_prefork.conf
+--> nähdään: ps aux | grep [a]pache2 ja pstree -p 4461 (<PID>) 
+-nano /etc/apache2/mods-enabled/mpm_prefork.conf
+-->     StartServers             3
+        MinSpareServers          3 
+        MaxSpareServers          6 
+- sudo systemctl restart apache2.service
+---> ps aux:illa nähdään, että lapsiprosesseja on nyt 3 käynnissä.
+
+######################
+H4T5
+- portti 888 kuuntelulle "sudo nano /etc/apache2/ports.conf"  -> Listen 888
+- sudo mkdir /var/www/html888
+- echo "<h1>Palvelin 888</h1>" | sudo tee /var/www/html888/index.html
+- sudo nano /etc/apache2/sites-available/server888.conf
+------>
+<VirtualHost *:888>
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html888
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+--------
+- sudo a2ensite server888 (a2ensite-komento tekee symb.linkin /etc/apache2/sites-enabled -kansioon luodulle virtuaalipalvelimelle)
+- sudo systemctl restart apache2.service
+
+######################
+H4T6
+katso: http://netisto.fi/oppaat/apache/02.htm
+
+
+#### sudo nano /etc/apache2/mods-enabled/userdir.conf ######
+
+- /etc/apache2/apache2.conf 
+---->
+<Directory /var/www/>
+	Options Indexes FollowSymLinks    <----- Indexes POIS
+	AllowOverride None
+	Require all granted
+</Directory>
+sudo a2enmod userdir
+
+
+######################
+H4T8
+- sudo apt install webalizer         #asennetaan webalizer ohjelma
+- sudo nano /etc/webalizer/webalizer.conf 	#muokataan konffia, jotta
+--------->OutputDir /var/www/html/usage		#output-hakemisto on suoraan sivuilla kansiossa usage
+- sudo mkdir /var/www/html/usage		#luodaan kansio webalizer log tiedostoille
+- sudo chmod 777 /var/www/html/usage		#annetaan oikeudet kansioon
+- webalizer					# ajetaan webalizer joka luo loki-tiedoston
+- katsotaan osoitteessa http://www.minunpalvelin.fi/usage/ 
+--->toimii
+
+######################
+H4T9
+- Tarjoa /srv/ftp/pub/ -hakemiston sisältöä Web-palvelimesi URLilla http://www.oma.example/ftp/
+- Muokataan  /etc/apache2/mods-available/alias.conf
+---->
+Alias /ftp/ "/srv/ftp/pub/"
+
+	<Directory "/srv/ftp/pub">
+		Options FollowSymlinks Indexes
+        	AllowOverride None
+        	Require all granted
+	</Directory>
+-----
+
+######################
+H4T10
+(Konfiguraatiosi jälkeen ei siis enää tarvita ~ -merkkejä haettaessa tavallisten käyttäjien Web-dokumentteja.)
+
+/etc/apache2/mods-enabled/alias.conf
+--->
+AliasMatch ^/u/([a-zA-Z0-9]+)/?(.*) /home/$1/public_html/$2
+-----
+
+######################
+H4T11
+Muutetaan
+/etc/apache2/apache.conf
+---->
+Timeout 10
+----
+- sudo systemctl restart apache2.service 
+- telnet localhost 80
+
+
+######################
+#H5T1: Asenna PHP-ympäristö käyttämääsi Linux-ympäristöösi.
+
+- PHP:n salliminen käyttäjien public_html-kansioista
+- Kommentoi tiedostosta /etc/apache2/mods-enabled/php7.0.conf rivi
+--->  php_admin_value engine off
+
+Aseta PHP-ympäristö myös siten, että PHP:n virheilmoitukset tulostetaan tarvittaessa näkyviin. 
+sudo nano /etc/php/7.0/apache2/php.ini
+--->
+display_errors = On
+..
+display_startup_errors = On
+---
+
+kesken
+
+######################
+#H5T2
+mysql -u root -p
+
+create database osoitteet;
+INSERT INTO henkilot (....
+
+lopputuloksena:
+mysql> SELECT * FROM henkilot;
++--------+-----------+---------+------------+--------+-----------------+
+| tunnus | sukunimi  | etunimi | osoite     | puhnro | email           |
++--------+-----------+---------+------------+--------+-----------------+
+| havpen | Haverinen | Pentti  | Poritie 4  | 00001  | pena@server.fi  |
+| kanvis | Kanninen  | Visa    | Kumpiuja 2 | 11234  | kane@abcde.fi   |
+| polrau | Polkunen  | Rauno   | Umpikuja 1 | 01234  | rane@abcde.fi   |
+| puuatt | Puulonen  | Atte    | Ratakatu1  | 44444  | NULL            |
+| puuhel | Puulonen  | Heli    | Asematie 7 | 55555  | hellu@abcd.fi   |
+| renjar | Rentola   | Jari    | Asemakatu1 | 33334  | jarra@gwassa.fi |
+| renkar | Rentola   | Kari    | Asemakatu1 | 22234  | carra@gwassa.fi |
++--------+-----------+---------+------------+--------+-----------------+
+7 rows in set (0,00 sec)
+----------------------
+
+######################
+#H5T3
+public_thml:
+nano mysql.php
+--->
+<?php
+$db = new PDO('mysql:host=localhost;dbname=osoitteet;charset=utf8',
+              'tkuser', 'sala');
+
+$stmt = $db->query('SELECT * FROM henkilot');
+ 
+while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    echo "{$row['sukunimi']}, {$row['etunimi']}<br>\n";
+}
+?>
+----
+
+toimii!
+
+######################
+#H5T4
+Asenna järjestelmääsi MySQL WorkBench -ohjelmisto ja testaa, että voit nähdä sillä paikallisesti (localhost) osoitteet-tietokantasi sisältöä.
+
+sudo apt install mysql-workbench
+käynnistetään GUI: --> host:localhost
+onnistuu
+
+######################
+#H5T5
+Asenna järjestelmääsi phpmyadmin-ohjelmisto ja testaa, että voit nähdä sillä sekä paikallisesti (localhost) 
+että etänä (palvelimesi ip-numeroa käyttäen)  osoitteet-tietokantasi sisältöä. Ohjeet: http://netisto.fi/oppaat/apache/11.htm
+
+sudo apt install phpmyadmin
+	*apache
+	*määritä mysql
+	*anna salasana
+asetukset tiedostossa: /etc/apache2/conf-enabled/phpmyadmin.conf 
+etänä testataan 192.168.2.224/phpmyadmin
+ja paikallisesti http://localhost/phpmyadmin/
+toimii
+
+######################
+#H5T6
+luokdaan kansio /home/sami/public_html/salainen ja sinne kaksi html-dokumenttia
+luodaan kansioon tiedosto .htaccess ja sinne sisältö:
+-->
+AuthType Basic
+AuthName "Restricted Resource"
+AuthBasicProvider file
+AuthUserFile "/home/sami/salasanat"
+Require user erkki2
+--
+luodaan salasanoja:
+htpasswd  -c   salasanat  erkki   #tämä ensimmäisellä kerralla
+htpasswd     salasanat  erkki2    #tämä siitä eteenpäin
+htpasswd     salasanat  erkki3
+--
+sudo systemctl restart apache2.service 
+
+testataan: 192.168.2.224/~sami/salainen/   tunnuksilla erkki:sala ei pääse, erkki2:sala2 pääsee
+toimii
+
+######################
+#H5T7
+Konfiguroi Web-palvelin ilman .htaccess-tiedostoa hakemistokohtaisesti siten, että  web-hakemistoon http://localhost/secret/ 
+sijoittamasi vapaavalintaiset HTML-dokumentit ovat saatavilla vain tunnuksella tent ja sitä vastaavalla salasanalla aamen. 
+Vinkki: .htaccess -tiedosto on vain globaalin httpd.conf -tiedoston hakemistokohtainen jatke, 
+joten sijoita .htaccess-tiedostoon ajattelemasi määritykset suoraan asianomaiseen Directory-lohkoon httpd.conf-tiedostoon. 
+Vinkki: http://netisto.fi/oppaat/apache/04.htm
+
+sudo nano /etc/apache2/apache2.conf
+lisätään osio -->
+<Directory /home/sami/secret>
+AuthType Basic
+AuthName "Restricted Resource"
+AuthBasicProvider file
+AuthUserFile "/home/sami/salasanat"
+Require user tent
+</Directory>
+--
+Luodaan kansio /home/sami/public_html/secret
+luodaan salasanat tiedostoon uusi salasana käyttäjälle tent:
+	- htpasswd     salasanat  tent    
+---> EI TOIMI
+
+UUSI TESTI:
+Luodaan kansioon tiedosto index.php ja sisällöksi:
+--->
+<?php
+//aut2.php
+if ((!isset($_SERVER['PHP_AUTH_USER'])) OR (!isset($_SERVER['PHP_AUTH_PW']))
+   OR ($_SERVER['PHP_AUTH_USER'] != "tent" )
+   OR ($_SERVER['PHP_AUTH_PW'] != "aamen"))
+{
+   Header("WWW-Authenticate: Basic realm=\"secret\"");
+   Header("HTTP/1.0 401 Unauthorized");
+   echo "Teksti, jos käyttäjä valitsee Peruuta/Cancel\n";
+   exit;
+}
+else
+{
+   echo "Täällä voi tehdä kaikkea salaista kivaa!";
+}
+?>
+---
+Nyt toimii.
+
+######################
+#H5T8
+Tarkista, että Samba-palvelimeen kuuluvat ohjelmistot ovat asennettu S-Linux -järjestelmässäsi. 
+Asenna tarvittaessa puuttuvat paketit. Käynnistä Samba ja tarkista, että palvelin käynnistyi. 
+Jaa kansio /var/www/html/samba siten, että kuka tahansa käyttäjä voi ilman salasanaa  sekä lukea että kirjoittaa ao. hakemistoon. 
+Testaa käyttö sekä Linux- että Windows-asiakasohjemin. Testaa myös, että kansioon tallennetut tiedostot näkyvät web-palvelimesi 
+välityksellä. Mistä osoitteesta?
+
+sudo nano /etc/samba/smb.conf
+--->
+[global]
+        map to guest = Bad User
+        log file = /var/log/samba/%m
+        log level = 1
+
+[sambawww]
+        path = /var/www/html/samba/
+        read only = no
+        guest ok = yes
+----
+sudo mkdir /var/www/html/samba
+sudo chmod 777 /var/www/html/samba/
+
+testaus
+linuxista:  smbclient //192.168.43.104/sambawww
+tai nautiluksella: connect to server - smb://192.168.43.104/sambawww
+windowsista map network drive: ei toimi, ilmeisesti tunnukseton käyttö estetty.
+
+######################
+#H5T9
+Samban kautta kopioitujen tiedostojen omistajaksi/omistajaryhmäksi tulee arska/users tai nyt kokeillaan sami/sami.
+
+Muokataan smb.conf tiedostoa:
+sudo nano /etc/samba/smb.conf
+--->
+[sambawww]
+        path = /var/www/html/samba/
+        read only = no
+        guest ok = yes
+	force user = sami   #asettaa samba kansioon siirretylle tiedostolle käyttäjäksi sami:sami
+	force group = sami
+---
+sudo systemctl restart smbd.service
+sudo systemctl restart nmbd.service
+testaus nautiluksella: connect to server - smb://192.168.43.104/sambawww
+ls -la /var/www/html/samba/ ---> toimii!
+
+
+######################
+#H5T10  &   #H5T11
+Tarkista, että S-Linux -palvelimella on muutamia tavallisia käyttäjätunnuksia (esim. testi1, testi2, ...). 
+Luo ainakin parista Linux-käyttäjästä myös Samba-käyttäjä.
+
+Jaa tavallisten käyttäjien kotihakemistot ja testaa C-Linux -työasemalta jaon käyttäminen (esim. S-Linux -tunnuksella testi1)
+sekä smbclient- että tiedostoselain-ohjelmilla. Testaa tiedostojen kopioiminen molempiin suuntiin. 
+Testaa jaon käyttäminen myös joltakin C-WIN -työasemalta.
+
+sudo smbpasswd -a testi1
+sudo nano /etc/samba/smb.conf
+--->
+[global]
+   map to guest = Bad User
+   log file = /var/log/samba/%m
+   log level = 1
+   passdb backend = tdbsam
+   obey pam restrictions = yes
+
+[homes]                 # <--- jakaa kaikki home-kansiot
+   comment = Home Directories
+   valid users = %S
+   browseable = no
+   read only = no
+   guest ok = no
+---
+sudo systemctl restart smbd.service
+sudo systemctl restart nmbd.service
+
+testataan windowsista:
+"map networkdrive" 192.168.43.104/testi1  testi1:root66
+-- TOIMII
+
+######################
+#H5T12
+Tee S-Linux -palvelimelle jako nimellä yleinen (/srv/samba/docs) siten, että jako on kaikkien users-ryhmän (/etc/group)
+kuuluvien käyttäjien käytettävissä: Kaikki voivat lukea, kaikki voivat lisätä, mutta kukin voi poistaa vain itse lisäämiään 
+tiedostoja. Testaa. Vinkit: @users, Sticky-bit
+
+mkdir /srv/samba/docs
+sudo chown :users /srv/samba/docs
+sudo chmod 660 /srv/samba/docs
+sudo chmod g+s /srv/samba/docs
+
+/etc/samba/smb.conf
+[yleinen]
+        path = /srv/samba/docs/
+        read only = no
+        guest ok = no
+	force group = users
+	valid users = @users
+
+testataan linuxilla: connect to server  smb://localhost/yleinen/  --> EI ONNISTU! 
+######################
+#H6T1
+mysql.exe -u root -p
+create database osoitteet_win;
+show databases;
+use osoitteet_win
+
+Luodaan tiedosto
+mysql -u root -p osoitteet_win < luo.sql
+
+####################
+#H6T2
+Aseta U16.4MySQLiin root-käyttäjän salasanaksi local66 siten, että kaikki root-käyttäjän paikallinen käyttö vaatii ao. salasanaa. 
+Testaa. Paikalliseksi käytöksi luetaan mm. osoitteista localhost, 127.0.0.1, koneen_nimi tapahtuva käyttö.
+Testaa ja vaihda alkuperäinen salasana sala käyttöön.
+
+mysqladmin -u root -ptoor password 'local66'
+testataan
+mysql -u root -plocal66 osoitteet ->toimii
+muutetaan takaisin
+mysqladmin -u root -plocal66 password 'toor'
+mysql -u root -ptoor osoitteet
+
+####################
+#H6T3
+Luo U16.4MySQLiin käyttäjä iproot salasanaksi remo66 siten, että tämä lisätty käyttäjä voi käyttää mysliä vain Win-järjestelmästäsi käsin.
+
+Ubuntusta:
+GRANT ALL PRIVILEGES ON *.* TO 'iproot'@'192.168.43.20' IDENTIFIED BY 'remo66' WITH GRANT OPTION;
+SELECT user,host,authentication_string FROM mysql.user;
+
+xampp/windowsista:
+mysql.exe -u iproot -premo66 192.168.43.103
+
+Ubuntusta:
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+bind-address            = 192.168.43.103
+sudo service mysql restart
+
+xampp/windowsista:
+mysql.exe -u iproot -premo66 -h192.168.43.103
+-> yhteys onnistui!!
+######################
+#H6T4
+Luo U16.4MySQLiin käyttäjät tkuser1 ja tkuser2 salasanoin sala siten että ao. käyttäjät ovat oikeutettuja käyttämään 
+kaikkia tietokantoja kaikin tavoin kaikialta ja luomaan myös uusia käyttäjiä. Testaa luomalla sopivia uusia tietokantoja ja käyttäjiä.
+
+Luodaan samalla käyttäjät GRANT komennolla
+GRANT ALL PRIVILEGES ON *.* TO 'tkuser1'@'%' IDENTIFIED BY 'sala' WITH GRANT OPTION;  //with grant option = pääkäyttäjä
+GRANT ALL PRIVILEGES ON *.* TO 'tkuser2'@'%' IDENTIFIED BY 'sala' WITH GRANT OPTION;
+
+######################
+#H6T5
+Luo U16.4MySQLiin käyttäjä tkluser salasanalla sala siten ,että ao. käyttää voi selata (SELECT-lause)
+vain aiemmin luotua osoitteet-tietokannan henkilot-taulua kaverin koneelta (katso ip-osoite). Testaa.
+
+GRANT SELECT ON osoitteet.* TO 'tkluser'@'192.168.43.20' IDENTIFIED BY 'sala'; //.20=windowsin ip
+
+testi windowsista:
+mysql.exe -u tkluser -psala -h192.168.43.103
+use osoitteet;
+delete from henkilot;
+--> access denied.. TOIMII
+
+######################
+#H6T6
+
+mysqldump -u root -ptoor osoitteet > osoitteet_backup.sql
+
+winscp:llä siirto windowsille
+
+windowsissa tuodaan backup
+
+mysql.exe -u root -p
+create database osoitteet_backup;
+mysqldump -u root -p osoitteet_backup < osoitteet_backup.sql
+######################
+#H6T7
+
+ladataan heidisql  https://student.labranet.jamk.fi/~ara/ftp/
+ip 192.168.43.103
+käyttäjäksi, joku joka on sallittu tietokannassa, esim tkuser1 : sala
+ja päästään sisään!
+
+######################
+#H6T8
+Laitetaan query ikkunaan:
+GRANT ALL PRIVILEGES ON *.* TO 'heidiroot'@'%' IDENTIFIED BY 'sala' WITH GRANT OPTION;
+
+######################
+#H6T9 - Luo HeidiSQL-ohjelmistolla osoitteet4-niminen tietokanta ja sinne henkilot-taulu, joka noudattaa aiemmissa tehtävissä käytettyä rakennetta.
+Lisää Query-välilehtä ja INSERT INTO -lauseita käyttäen ne aimmenkin mainitut 6 tietuetta tietokantaan.
+Varmista lisäyksen onnistuminen sekä HeidiSQL:llä että U16.4MySQL-järjestelmän mysql-monitorilla. Lisää ja poista muutama tietue data-välilehden avulla.
+
+create database osoitteet4;
+use osoitteet4;
+
+CREATE TABLE henkilot ( -- 1.sql
+tunnus varchar(6) not null,
+sukunimi varchar(128) not null,
+etunimi varchar(128) not null,
+osoite varchar(255) not null,
+puhnro varchar(64) not null,
+email varchar(128),
+PRIMARY KEY (tunnus),
+UNIQUE (email));
+INSERT INTO henkilot (tunnus, sukunimi, etunimi, osoite, puhnro, email)
+VALUES ('havpen', 'Haverinen', 'Pentti', 'Poritie 4', '00001','pena@server.fi');
+INSERT INTO henkilot (tunnus, sukunimi,etunimi,osoite, puhnro,email)
+VALUES ('kanvis','Kanninen','Visa','Kumpiuja 2','11234','kane@abcde.fi');
+INSERT INTO henkilot (tunnus, sukunimi,etunimi,osoite, puhnro,email)
+VALUES ('polrau','Polkunen','Rauno','Umpikuja 1','01234','rane@abcde.fi');
+INSERT INTO henkilot (tunnus, sukunimi,etunimi,osoite, puhnro,email)
+VALUES ('renkar','Rentola','Kari','Asemakatu1','22234','carra@gwassa.fi');
+INSERT INTO henkilot (tunnus, sukunimi,etunimi,osoite, puhnro,email)
+VALUES ('renjar','Rentola','Jari','Asemakatu1','33334','jarra@gwassa.fi');
+INSERT INTO henkilot (tunnus, sukunimi,etunimi,osoite, puhnro,email)
+VALUES ('puuatt','Puulonen','Atte','Ratakatu1','44444', NULL);
+INSERT INTO henkilot (tunnus, sukunimi,etunimi,osoite, puhnro,email)
+VALUES ('puuhel','Puulonen','Heli','Asematie 7','55555','hellu@abcd.fi');
+
+######################
+#H6T10  -  Ota HeidiSQL-ohjelmistolla osoitteet4-tietokannasta varmuuskopio ja poista osoitteet4-tietokanta sen jälkeen.
+
+valitaan HeidiSQL:stä osoitteet4 tietokanta -> Export database as SQL   (INSERT, DROP / CREATE molempiin, one big file ja tiedosto valitaan)
+varmuuskopio tallentuu haluttuun paikkaan.
+
+######################
+#H6T11  -  Palauta osoitteet4-tietokanta tekemästäsi varmuuskopiosta sekä mysql-monitorilla U16.4MySQL-järjestelmässä 
+sekä HeidiSQL-ohjelmistolla. Poista tietokantasi ensimmäisen palautuksen jälkeen.
+
+HeidiSQL: File - Load SQL-file: ja tietokanta ilmestyy näkyviin.
+Tämän jälkeen DROP osoitteet4, eli poistetaan tietokanta.
+
+Siirretään backupsql.sql tiedosto winscp:llä ubuntulle
+Ubuntu mysql: 
+	mysql -u heidiroot -psala
+		create database osoitteet4;
+		exit
+	mysql -u heidiroot -psala osoitteet4 < /home/sami/backupsql.sql
+Tarkistetaan ubuntun mysql:stä
+	use osoitteet4;
+	select * from henkilot;
+	--> toimii!
+
+######################
+H6T12 - Testaa, että tietokantayhteys toimii myös WIN/MySQL WorkBench-ohjelmistolla U16.4MySQLin osoitteet-tietokantaasi.
+Kokeillaan Workbench 6.0 CE:llä
+Toimii, kaikki tietokannat näkyvät!!
+
+
+######################
+H6T13  -  Lisää U16.4MySQL-järjestelmän osoitteet-tietokantaan yli 200 000 osoitetietoa ja testaa muutamin SELECT-kyselyin kuinka nopeasti tietoja voi hakea. 
+Vinkki: Luo INSERT INTO -lauseita sisältävä tekstitiedosto esim. Linuxin shell-skriptillä tai PHP-ohjelmointikieltä käyttäen. Esim. seuraavalla tee-iso.php-skriptillä:
+
+mysql -u heidiroot -psala osoitteet < /home/sami/file.sql
+mysql -u heidiroot -psala osoitteet
+	select * from henkilot;  -> ruudulla haun kesto 0,46sec, mutta ruudulle tulostuminen kesti ehkä 8-10 sekuntia.
+	select sukunimi from henkilot;  -> haun kest ilmoitettiin 0,21 sec, ruudulle ehkä 5-6 sekuntia.
+
+######################
+H7T1 - Aseta Apache web-palvelimesi tarjoamaan myös HTTPS-protokollan mukaisia yhteyksiä. Testaa.
+sudo a2enmod ssl
+sudo a2enmod headers
+sudo a2ensite default-ssl
+sudo systemctl restart apache2.service
+
+######################
+
+H7T2 - Asenna wireshark-ohjelma ja totea aluksi wireshark-ohjelman avulla, että http-liikenne on selväkielistä.
+
+sudo apt install wireshark libpcap0.8
+sudo usermod -a -G wireshark sami
+sudo setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap
+
+Lisäksi virheilmoituksen "Running wireshark “Lua: Error during loading”"
+saa pois editoimalla seuraavaa tiedostoa:
+
+sudo nano /usr/share/wireshark/init.lua
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- ---- -- -- -- -- -- -- --
+...
+-- Alkuperäinen asetus kommentoituna:
+-- disable_lua = false
+disable_lua = true
+...
+-- Alkuperäinen asetus kommentoituna:
+--run_user_scripts_when_superuser = false
+run_user_scripts_when_superuser = true
+...
+-- Alkuperäinen asetus kommentoituna:
+--if running_superuser then
+if not running_superuser then
+...
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- ---- -- -- -- -- -- -- --
+gnome-session-quit --logout --no-prompt
+
+
+Wiresharkissa:
+- ip.src==192.168.43.101 (ubu) and ip.dst==192.168.43.20 (win)
+- Kättelyn jälkeen ubuntu lähettää paketin selväkielisenä. Teksti löytyy otsakkeesta "Line-based text data: text/html (375 lines)"
+
+######################
+H7T3
+
+wireshark suodatus:
+ip.addr==192.168.43.101
+
+win->ubu TLSv1.2	192.168.43.20	192.168.43.101	TLSv1.2	571	Client Hello
+ubu -win		192.168.43.101	192.168.43.20	TLSv1.2	1191	Server Hello, Certificate, Server Key Exchange, Server Hello Done
+
+ei näy selväkielisenä:
+win->ubu		192.168.43.20	192.168.43.101	TLSv1.2	641	Application Data
+ubu -win		192.168.43.101	192.168.43.20	TLSv1.2	605	Application Data, Application Data
+
+
+######################
+H7T4
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/apache.key -out /etc/ssl/certs/apache.crt
+annetaan tiedot
+
+editoidaan:
+sudo nano /etc/apache2/sites-enabled/default-ssl.conf 
+
+Lisätään:
+SSLCertificateFile    /etc/ssl/certs/apache.crt
+SSLCertificateKeyFile /etc/ssl/private/apache.key
+ja kommentoidaan edelliset sertifikaatit
+
+sudo systemctl restart apache2.service
+
+######################
+H7T5
+
+sudo mkdir /var/www/html/toptopsecret
+sudo nano /var/www/html/toptopsecret/index.html
+sudo nano /var/www/html/toptopsecret/.htaccess    ->  sisälle vain: SSLRequireSSL
+
+sudo nano /etc/apache2/apache2.conf
+--->
+<Directory /var/www/html/toptopsecret>
+        AllowOverride All
+        Options Indexes FollowSymLinks
+        Require all granted
+</Directory>
+---
+
+######################
+H8T1
+
+tehty tunnilla ja tunnin jälkeen loppuun. muutamilta puuttui php7.0-xml -paketti
+
+######################
+H8T3
+
+valmis. tehty tunnilla.
+muista sudo nano ~/public_html/kauppa/images/.htaccess
+kommentoi # Options -Indexes 
+
+######################
+H8T4
+
+tehty.. 
+juuso@joojoo.fi
+salasala
+tilattu Hewlett Packard LaserJet 1100Xi
+
+######################
+H8T5
+mennäänä orders välilehdelle
+http://192.168.43.101/~sami/kauppa/admin/orders.php
+painetaan nuolta "action"
+muutetaan status "pending" -> "delivered" ja painetaan update
+
+######################
+
+
+
+
+sami:toor
+mysql root:toor
+
+mysql -u root -psala osoitteet
+mysql:ssä voi olla monta roottia  (locaLHOSTA TAI muu)
+
+-----------------------------------------
+umask
+tiedostot: 666 - 002 = 664
+hakemistot: 777 - 022 = 755
+esim
+umask 026 => dir: 751 file: 640
+
+missä: esim. which passwd
+passwd:llä suid:n avulla roottina
+
+/etc/skel/ kansion sisältö kopioituu kaikille uusille käyttäjille kotikansioon
+
+
+/etc/services
+-------------------------------------------
