@@ -261,8 +261,8 @@ Apache webserver toimii www-data käyttäjänä. Jotta Apache voisi kirjoittaa j
 
 Seuraavilla kahdella find-komennolla annetaan wordpress-kansiossa oleville kansioille oikeudet 750 ja tiedostoille 640.  
 
->\$ sudo find /var/www/wordpress/ -type d -exec chmod 750 {} \;  
->\$ sudo find /var/www/wordpress/ -type f -exec chmod 640 {} \;  
+>\$ sudo find /var/www/wordpress/ -type d -exec chmod 750 {} \\;  
+>\$ sudo find /var/www/wordpress/ -type f -exec chmod 640 {} \\;  
 
 
 ## 3.2. wp-config.php
